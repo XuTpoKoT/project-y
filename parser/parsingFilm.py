@@ -1,5 +1,3 @@
-import socks
-import socket
 import time
 import requests
 from bs4 import BeautifulSoup
@@ -10,92 +8,34 @@ def delay():
     time.sleep(2)
 
 
-def parsingTable(start, end):
-    page = start
-    while page < end:
-        delay()
-        response_table = getResponseTable(page)
-        if response_table is None:
-            print("Err: no internet connection.")
-            continue
+def parsingFilm(id):
+    delay()
 
-        soup_table = BeautifulSoup(response_table.text, "lxml")
+    data_film = {
+        "id": id[6:-1],
+        "type": "1",
+        "title": None,
+        "original_title": None,
+        "year": None,
+        "country": None,
+        "director": None,
+        "budget": None,
+        "runtime": None,
+        "world_gross": None,
+        "genres": None,
+        "age": None,
+        "actors": None,
+        "description": None,
+        "image": None,
+        "imageUrl": None,
+        "rating": None,
+        "count": None,
+        "rating_imdb": None,
+        "count_imdb": None
+    }
 
-        films = getFilms(soup_table)
-        if films is None:
-            print("Err: error in parsing the page.")
-            continue
-
-        len_films = len(films)
-        if len_films == 0:
-            print("Err: the page didn't load.")
-            continue
-
-        print(f"on page {page} uploaded {len_films} films.")
-        ids_films, values_films = filmsHandler(films)
-        parsingFilm(len_films, ids_films, values_films)
-
-        page += 1
-
-
-def getResponseTable(current_page):
-    link_table = f"https://www.kinopoisk.ru/lists/navigator/?page={current_page}&sort=popularity&tab=all"
-
-    try:
-        return requests.get(link_table, headers={'User-Agent': UserAgent().chrome}, timeout=10)
-    except:
-        return None
-
-
-def getFilms(soup):
-    try:
-        return soup.find_all("div", class_="selection-list__film")
-    except:
-        return None
-
-
-def filmsHandler(list_films):
-    all_ids = []
-    all_values = []
-
-    for film in list_films:
-        all_ids.append(film.find("a", class_="selection-film-item-meta__link")["href"])
-        all_values.append(film.find("span", class_="rating__value").text)
-
-    return all_ids, all_values
-
-
-def parsingFilm(len, ids, values):
-    i = 0
-    while i < len:
-        delay()
-        if values[i] == "—":
-            i += 1
-            continue
-
-        link_film = "https://www.kinopoisk.ru" + ids[i]
-        data_film = {
-            "id": ids[i][6:-1],
-            "type": "1",
-            "title": None,
-            "original_title": None,
-            "year": None,
-            "country": None,
-            "director": None,
-            "budget": None,
-            "runtime": None,
-            "world_gross": None,
-            "genres": None,
-            "age": None,
-            "actors": None,
-            "description": None,
-            "image": None,
-            "imageUrl": None,
-            "rating": None,
-            "count": None,
-            "rating_imdb": None,
-            "count_imdb": None
-        }
+    while True:
+        link_film = "https://www.kinopoisk.ru" + id
 
         response_film = getResponseFilm(link_film)
         if response_film is None:
@@ -161,8 +101,7 @@ def parsingFilm(len, ids, values):
         else:
             print("War: no imdb rating.")
 
-        print(data_film)
-        i += 1
+        return data_film
 
 
 def getResponseFilm(link):
@@ -209,21 +148,21 @@ def getEncyclopedicDataFilm(soup):
 
     for row in all_rows_encyclopedic:
         infoRow = row.find_all("div")
-        if infoRow[0].text == "Год производства":
+        if infoRow[0].text == "Год производства" and infoRow[1].text != "-":
             data["year"] = infoRow[1].text
-        elif infoRow[0].text == "Страна":
+        elif infoRow[0].text == "Страна" and infoRow[1].text != "-":
             data["country"] = infoRow[1].text
-        elif infoRow[0].text == "Режиссер":
+        elif infoRow[0].text == "Режиссер" and infoRow[1].text != "-":
             data["director"] = infoRow[1].text
-        elif infoRow[0].text == "Бюджет":
+        elif infoRow[0].text == "Бюджет" and infoRow[1].text != "-":
             data["budget"] = infoRow[1].text.replace("\xa0", "")
-        elif infoRow[0].text == "Время":
+        elif infoRow[0].text == "Время" and infoRow[1].text != "-":
             data["runtime"] = infoRow[1].text
-        elif infoRow[0].text == "Сборы в мире":
+        elif infoRow[0].text == "Сборы в мире" and infoRow[1].text != "-":
             data["world_gross"] = infoRow[1].text.replace("сборы", "").replace("\xa0", "")
-        elif infoRow[0].text == "Жанр":
+        elif infoRow[0].text == "Жанр" and infoRow[1].text != "-":
             data["genres"] = infoRow[1].text.replace("слова", "")
-        elif infoRow[0].text == "Возраст":
+        elif infoRow[0].text == "Возраст" and infoRow[1].text != "-":
             data["age"] = infoRow[1].text
 
     return data
@@ -277,11 +216,3 @@ def getRatingImdbFilm(soup):
         return None, None
 
     return rating_stats[0].text.replace("IMDb: ", ""), rating_stats[1].text
-
-
-if __name__ == "__main__":
-    socks.set_default_proxy(socks.SOCKS5, "localhost", 9150)
-    socket.socket = socks.socksocket
-
-    parsingTable(1, 3)
-
