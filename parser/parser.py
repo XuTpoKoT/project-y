@@ -5,170 +5,280 @@ import requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
-FOLDER = "img-data"  # название папки для изображений
-PAGE_RANGE = [1, 50]  # [начальная страница, конечная страница],
+
+def parsingTable(start, end):
+    page = start
+    while page < end:
+        time.sleep(2)
+        responseTable = getResponseTable(page)
+        if responseTable is None:
+            print("Err: нет интернета.")
+            continue
+
+        soupTable = BeautifulSoup(responseTable.text, "lxml")
+
+        films = getFilms(soupTable)
+        if films is None:
+            print("Err: ошибка в парсинге страницы.")
+            continue
+
+        lenFilms = len(films)
+        if lenFilms == 0:
+            print("Err: страница не загрузилась.")
+            continue
+
+        print(f"on page {page} uploaded {lenFilms} films.")
+        idsFilms, valuesFilms = filmsHandler(films)
+        parsingFilm(lenFilms, idsFilms, valuesFilms)
+
+        page += 1
+        time.sleep(2)
+
+
+def getResponseTable(currentPage):
+    linkTable = f"https://www.kinopoisk.ru/lists/navigator/?page={currentPage}&sort=popularity&tab=all"
+
+    try:
+        return requests.get(linkTable, headers={'User-Agent': UserAgent().chrome}, timeout=10)
+    except:
+        return None
+
+
+def getFilms(soup):
+    try:
+        return soup.find_all("div", class_="selection-list__film")
+    except:
+        return None
+
+
+def filmsHandler(listFilms):
+    allIds = []
+    allValues = []
+
+    for film in listFilms:
+        allIds.append(film.find("a", class_="selection-film-item-meta__link")["href"])
+        allValues.append(film.find("span", class_="rating__value").text)
+
+    return allIds, allValues
+
+
+def parsingFilm(len, ids, values):
+    i = 0
+    while i < len:
+        time.sleep(2)
+        if values[i] == "—":
+            i += 1
+            continue
+
+        linkFilm = "https://www.kinopoisk.ru" + ids[i]
+        dataFilm = {
+            "id": ids[i][6:-1],
+            "type": "1",
+            "title": "—",
+            "originalTitle": "—",
+            "year": "—",
+            "country": "—",
+            "director": "—",
+            "budget": "—",
+            "runtime": "—",
+            "worldGross": "—",
+            "genres": "—",
+            "age": "—",
+            "actors": "—",
+            "description": "—",
+            "image": "—",
+            "imageUrl": "—",
+            "rating": "—",
+            "count": "—",
+            "ratingImdb": "—",
+            "countImdb": "—"
+        }
+
+        responseFilm = getResponseFilm(linkFilm)
+        if responseFilm is None:
+            print("Err: нет интернета.")
+            continue
+
+        soupFilm = BeautifulSoup(responseFilm.text, "lxml")
+
+        title = getTitleFilm(soupFilm)
+        if title is not None:
+            dataFilm["title"] = title
+        else:
+            print("Err: фильм не загрузился.")
+            continue
+
+        originalTitle = getOriginalTitleFilm(soupFilm)
+        if originalTitle is not None:
+            dataFilm["originalTitle"] = originalTitle
+        else:
+            print("War: нет original title.")
+
+        encyclopedicData = getEncyclopedicDataFilm(soupFilm)
+        print(encyclopedicData)
+        if encyclopedicData is not None:
+            for key in encyclopedicData.keys():
+                if encyclopedicData[key] is not None:
+                    dataFilm[key] = encyclopedicData[key]
+        else:
+            print("War: нет encyclopedic.")
+
+        if "сезон" in dataFilm["year"]:
+            dataFilm["type"] = "0"
+
+        actors = getActorsFilm(soupFilm)
+        if actors is not None:
+            dataFilm["actors"] = actors
+        else:
+            print("War: нет actors.")
+
+        description = getDescriptionFilm(soupFilm)
+        if description is not None:
+            dataFilm["description"] = description
+        else:
+            print("War: нет информации о фильме.")
+
+        image, imageUrl = getImageFilm(soupFilm, dataFilm["id"])
+        if image is not None:
+            dataFilm["image"] = image
+            dataFilm["imageUrl"] = imageUrl
+        else:
+            print("War: нет постера к фильму.")
+
+        rating, count = getRatingFilm(soupFilm)
+        if rating is not None:
+            dataFilm["rating"] = rating
+            dataFilm["count"] = count
+        else:
+            print("War: Нет оценки.")
+
+        ratingImdb, countImdb = getRatingImdbFilm(soupFilm)
+        if ratingImdb is not None:
+            dataFilm["ratingImdb"] = ratingImdb
+            dataFilm["countImdb"] = countImdb
+        else:
+            print("War: Нет оценки imdb.")
+
+        print(i + 1, dataFilm)
+        i += 1
+
+
+def getResponseFilm(link):
+    try:
+        return requests.get(link, headers={'User-Agent': UserAgent().chrome}, timeout=10)
+    except:
+        return None
+
+
+def getTitleFilm(soup):
+    try:
+        return soup.find("h1", itemprop="name").find("span").text
+    except:
+        return None
+
+
+def getOriginalTitleFilm(soup):
+    try:
+        spans = soup.find("h1", itemprop="name").parent.find("div").find_all("span")
+        for span in spans:
+            if "originalTitle" in span["class"][0]:
+                return span.text
+    except:
+        return None
+
+
+def getEncyclopedicDataFilm(soup):
+    data = {
+        "year": None,
+        "country": None,
+        "director": None,
+        "budget": None,
+        "runtime": None,
+        "worldGross": None,
+        "genres": None,
+        "age": None,
+    }
+    try:
+        encyclopedic = soup.find("div", attrs={"data-test-id": "encyclopedic-table"})
+        dataTidEncyclopedic = encyclopedic.find("div")["data-tid"]
+        allRowsEncyclopedic = encyclopedic.find_all(attrs={"data-tid": dataTidEncyclopedic})
+    except:
+        return None
+
+    for row in allRowsEncyclopedic:
+        infoRow = row.find_all("div")
+        if infoRow[0].text == "Год производства":
+            data["year"] = infoRow[1].text
+        elif infoRow[0].text == "Страна":
+            data["country"] = infoRow[1].text
+        elif infoRow[0].text == "Режиссер":
+            data["director"] = infoRow[1].text
+        elif infoRow[0].text == "Бюджет":
+            data["budget"] = infoRow[1].text.replace("\xa0", "")
+        elif infoRow[0].text == "Время":
+            data["runtime"] = infoRow[1].text
+        elif infoRow[0].text == "Сборы в мире":
+            data["worldGross"] = infoRow[1].text.replace("сборы", "").replace("\xa0", "")
+        elif infoRow[0].text == "Жанр":
+            data["genres"] = infoRow[1].text.replace("слова", "")
+        elif infoRow[0].text == "Возраст":
+            data["age"] = infoRow[1].text
+
+        return data
+
+
+def getActorsFilm(soup):
+    try:
+        actors = soup.find("div", class_="film-crew-block").find("div").find("ul").find_all("li")
+    except:
+        return None
+
+    actors_list = ""
+    for actor in actors:
+        actors_list += actor.text + ", "
+    return actors_list[:-2]
+
+
+def getDescriptionFilm(soup):
+    try:
+        return soup.find("p", class_="styles_paragraph__2Otvx").text
+    except:
+        return None
+
+
+def getImageFilm(soup, id):
+    FOLDER = "img-data"
+    try:
+        image_url = "http:" + soup.find("img", class_="film-poster")["src"]
+        image = requests.get(image_url, timeout=10)
+        with open(FOLDER + "/" + id + ".jpg", 'bw') as f:
+            f.write(image.content)
+    except:
+        return None, None
+
+    return FOLDER + "/" + id + ".jpg", image_url
+
+
+def getRatingFilm(soup):
+    try:
+        ratingStats = soup.find("div", class_="film-rating").find_all("span")
+    except:
+        return None, None
+
+    return ratingStats[0].text, ratingStats[2].text
+
+
+def getRatingImdbFilm(soup):
+    try:
+        ratingStats = soup.find("div", class_="film-sub-rating").find_all("span")
+    except:
+        return None, None
+
+    return ratingStats[0].text.replace("IMDb: ", ""), ratingStats[1].text
+
 
 if __name__ == "__main__":
-    # подключаем прокси тора
     socks.set_default_proxy(socks.SOCKS5, "localhost", 9150)
     socket.socket = socks.socksocket
 
-    i = PAGE_RANGE[0]
-    # цикл для страниц
-    while i <= PAGE_RANGE[1]:
-        time_main = time.time()
-
-        link_table = f"https://www.kinopoisk.ru/lists/navigator/?page={i}&sort=popularity&tab=all"
-        try:
-            response_table = requests.get(link_table, headers={'User-Agent': UserAgent().chrome}, timeout=10)
-        except:
-            print("Err: нет интернета")
-
-        soup_table = BeautifulSoup(response_table.text, "lxml")
-
-        try:
-            # Ищем на странице все фильмы
-            all_films = soup_table.find_all("div", class_="selection-list__film")
-            # Если на странице нет фильмов, то загружаем ее заново
-            if len(all_films) == 0:
-                print("Err: страница не загрузилась.")
-                continue
-            print(f"on page {i} uploaded {len(all_films)} films.")
-
-            # Собираем id и оценку каждого фильма, id нужен для получения ссылки на фильм
-            all_ids = []
-            all_values = []
-            for film in all_films:
-                all_ids.append(film.find("a", class_="selection-film-item-meta__link")["href"])
-                all_values.append(film.find("span", class_="rating__value").text)
-
-            # Цикл для каждого фильма
-            j = 0
-            while j < len(all_ids):
-                # Если у фильма нет оценки, то мы не заносим его в БД
-                if all_values[j] != "—":
-                    link_film = "https://www.kinopoisk.ru" + all_ids[j]
-                    data_film = {
-                        "id": all_ids[j][6:-1],
-                        "type": "1",
-                        "title": "—",
-                        "original_title": "—",
-                        "year": "—",
-                        "country": "—",
-                        "director": "—",
-                        "budget": "—",
-                        "runtime": "—",
-                        "world_gross": "—",
-                        "genres": "—",
-                        "age": "—",
-                        "actors": "—",
-                        "description": "—",
-                        "image": "—",
-                        "image_url": "—",
-                        "rating": "—",
-                        "count": "—",
-                        "rating_imdb": "—",
-                        "count_imdb": "—"
-                    }
-
-                    response_film = requests.get(link_film, headers={'User-Agent': UserAgent().chrome}, timeout=10)
-                    soup_film = BeautifulSoup(response_film.text, "lxml")
-                    try:
-                        # Название фильма
-                        data_film["title"] = soup_film.find("h1", itemprop="name").find("span").text
-
-                        # Original title
-                        try:
-                            spans = soup_film.find("h1", itemprop="name").parent.find("div").find_all("span")
-                            for span in spans:
-                                if "originalTitle" in span["class"][0]:
-                                    data_film["original_title"] = span.text
-                        except:
-                            print("War: нет original title")
-
-                        # Информация из поля "О фильме"
-                        encyclopedic = soup_film.find("div", attrs={"data-test-id": "encyclopedic-table"})
-                        data_tid_encyclopedic = encyclopedic.find("div")["data-tid"]
-                        all_rows_encyclopedic = encyclopedic.find_all(attrs={"data-tid": data_tid_encyclopedic})
-                        for row in all_rows_encyclopedic:
-                            info_row = row.find_all("div")
-                            if info_row[0].text == "Год производства":
-                                data_film["year"] = info_row[1].text
-                            elif info_row[0].text == "Страна":
-                                data_film["country"] = info_row[1].text
-                            elif info_row[0].text == "Режиссер":
-                                data_film["director"] = info_row[1].text
-                            elif info_row[0].text == "Бюджет":
-                                data_film["budget"] = info_row[1].text.replace("\xa0", "")
-                            elif info_row[0].text == "Время":
-                                data_film["runtime"] = info_row[1].text
-                            elif info_row[0].text == "Сборы в мире":
-                                data_film["world_gross"] = info_row[1].text.replace("сборы", "").replace("\xa0", "")
-                            elif info_row[0].text == "Жанр":
-                                data_film["genres"] = info_row[1].text.replace("слова", "")
-                            elif info_row[0].text == "Возраст":
-                                data_film["age"] = info_row[1].text
-
-                        # Тип
-                        if "сезон" in data_film["year"]:
-                            data_film["type"] = "0"
-
-                        # Актеры
-                        try:
-                            actors = soup_film.find("div", class_="film-crew-block").find("div").find("ul").find_all("li")
-                            actors_list = ""
-                            for actor in actors:
-                                actors_list += actor.text + ", "
-                            data_film["actors"] = actors_list[:-2]
-                        except:
-                            print("War: нет актеров")
-
-                        # О фильме
-                        try:
-                            data_film["description"] = soup_film.find("p", class_="styles_paragraph__2Otvx").text
-                        except:
-                            print("War: нет информации о фильме.")
-
-                        # Постер фильма
-                        try:
-                            image_url = "http:" + soup_film.find("img", class_="film-poster")["src"]
-                            image = requests.get(image_url, timeout=10)
-                            with open(FOLDER + "/" + all_ids[j][6:-1] + ".jpg", 'bw') as f:
-                                f.write(image.content)
-                            data_film["image"] = FOLDER + "/" + all_ids[j][6:-1] + ".jpg"
-                            data_film["image_url"] = image_url
-                        except:
-                            print("War: нет постера к фильму.")
-
-                        # Оценка фильма
-                        try:
-                            rating_stats = soup_film.find("div", class_="film-rating").find_all("span")
-                            data_film["rating"] = rating_stats[0].text
-                            data_film["count"] = rating_stats[2].text
-                        except:
-                            print("War: Нет оценки")
-
-                        # Оценка фильма imdb
-                        try:
-                            rating_imdb_stats = soup_film.find("div", class_="film-sub-rating").find_all("span")
-                            data_film["rating_imdb"] = rating_imdb_stats[0].text.replace("IMDb: ", "")
-                            data_film["count_imdb"] = rating_imdb_stats[1].text
-                        except:
-                            print("War: нет оценки imdb")
-
-                        '''
-                        !!!
-                        Здесь место для заполнения БД.
-                        !!!
-                        '''
-
-                        print(i, j+1, data_film["title"], "добавлен в БД.")
-                        j += 1
-                    except:
-                        print("Err: ошибка в парсинге фильма.")
-                    time.sleep(2)
-            i += 1
-        except:
-            print("Err: ошибка в парсинге страницы.")
-        print(f"Total time for {i - 1} page: {round(time.time() - time_main, 2)} sec")
-        time.sleep(2)
+    parsingTable(1, 3)
