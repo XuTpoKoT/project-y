@@ -117,7 +117,16 @@
             </div>
 
             <div class="list" id="root">
-
+                {% for elem in articles %}
+                <div class="list__item">
+                    <div class="list__item__image">
+                        {{ elem.imageUrl }}
+                    </div>
+                    <div class="list__item__title">
+                        {{ elem.title }}
+                    </div>
+                </div>
+                {% endfor %}
             </div>
 
         </div>

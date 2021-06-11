@@ -205,35 +205,21 @@ $movieListWidth: 785px;
     display: flex;
     justify-content: space-between;
     .list {
-        display: flex;
-        flex-wrap: wrap;
+        overflow-y: scroll;
+        padding: 15px;
         width: $movieListWidth;
         height: $movieListHeight;
         @include NeuForMainBlocks;
-        justify-content: space-around;
-        align-items: center;
         &__item {
             display: flex;
-            width: 48%;
-            height: 120px;
-            background-color: red;
-            &__info {
-                display: flex;
-                flex-direction: column;
-                justify-content: space-around;
-                width: 100%;
-                &__title {
-                    background-color: pink;
-                }
-                &__original-title {
-                    background-color: yellow;
-                }
-            }
-            &__rating {
-                line-height: 120px;
-                text-align: center;
-                background-color: aqua;
+            height: 145px;
+            @include NeuForMainBlocks();
+            margin-bottom: 25px;
+
+            &__image {
+                border-radius: 13px 0 0 13px;
                 width: 100px;
+                background-color: aqua;
             }
         }
     }

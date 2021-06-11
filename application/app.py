@@ -9,14 +9,40 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def main_page():
 
-    # Открываем файл DB
-    db = open('./database/db1.json', 'r')
+    films = [
+        {
+            "title": "Матрица",
+            "rating": "9.0",
+            "imageUrl": "",
+        },
+        {
+            "title": "Крестный отец",
+            "rating": "8.0",
+            "imageUrl": "",
+        },
+        {
+            "title": "Онеме",
+            "rating": "9.5",
+            "imageUrl": "",
+        },
+        {
+            "title": "Онеме",
+            "rating": "9.5",
+            "imageUrl": "",
+        },
+        {
+            "title": "Онеме",
+            "rating": "9.5",
+            "imageUrl": "",
+        },
+        {
+            "title": "Онеме",
+            "rating": "9.5",
+            "imageUrl": "",
+        },
+    ]
 
-    data = json.load(db)
-    print(data)
-
-    db.close()
-    return render_template('index.html')
+    return render_template('index.html', articles=films)
 
 if __name__ == '__main__':
     app.run(debug=True)
