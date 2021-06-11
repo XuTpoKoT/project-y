@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проект</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/font-awesome/css/font-awesome.min.css') }}">
+    <script defer src="{{ url_for('static', filename='scripts/script.js') }}"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="header__wrap">
+                <div class="header__logo"><span>LOGOTYPE</span></div>
+                <div class="search">
+                    <input type="text" placeholder="Поиск" />
+                </div>
+            </div>
+            <div class="header__profile__wrap">
+                <div class="header__profile">
+                    <div class="header__profile__nickname">Иван</div>
+                    <div class="header__profile__icon"><img src="{{ url_for('static', filename='styles/icons/accountHeader.png') }}" alt=""></div>
+                    <div class="header__profile__arrow"><i class="fa fa-caret-down fa-1x menu-icon" aria-hidden="true"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="recommendations">
+            <span>Может быть, Вам будет интересно</span>
+            <div class="recommendations__wrap">
+                <div class="slider">
+                    <div class="slider__item slider__item_active">1
+                    </div>
+                    <div class="slider__item slider__item_active">2
+                    </div>
+                    <div class="slider__item slider__item_active">3
+                    </div>
+                    <div class="slider__item slider__item_active">4
+                    </div>
+                    <div class="slider__item slider__item_active">5
+                    </div>
+                    <div class="slider__item slider__item_active">6
+                    </div>
+                    <div class="slider__item">7
+                    </div>
+                    <div class="slider__item">8
+                    </div>
+                    <div class="slider__item">9
+                    </div>
+                    <div class="slider__item">10
+                    </div>
+                </div>
+                <div class="slider__button-left">
+                    <button><i class="fa fa-angle-left fa-2x" aria-hidden="true"></i></button>
+                </div>
+                <div class="slider__button-right">
+                    <button><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="movies">
+            <div class="sidebar">
+                <div class="account">
+                    <div class="account__wrap">
+                        <div class="account__icon">
+                            <img src="{{ url_for('static', filename='./styles/icons/account.png') }}" alt="">
+                        </div>
+                        <div class="account__data">
+                            <div class="account__data__initials"><span>Иван Иванов</span></div>
+                            <div class="account__data__login"><span>@user123</span></div>
+                        </div>                        
+                    </div>
+                    <div class="account__info">
+                        <div class="watched"><span>Всего просмотрено: 400</span></div>
+                        <div class="liked"><span>Понравившиеся фильмы: 231</span></div>
+                        <div class="fulltime"><span>Общее время просмотра: 200ч</span></div>
+                    </div>
+                </div>
+                <div class="settings">
+                    <div class="menu">
+                        <div class="menu__title"><span>Жанры</span></div>
+                        <div class="menu__button">
+                            <span>Все жанры</span>
+                            <i class="fa fa-caret-down fa-1x menu-icon" aria-hidden="true"></i>
+                        </div>
+                        <ul class="menu__list">
+                            <li class="menu__list__item">Вестерн</li>
+                            <li class="menu__list__item">Ужасы</li>
+                            <li class="menu__list__item">Триллер</li>
+                            <li class="menu__list__item">Вестерн</li>
+                            <li class="menu__list__item">Ужасы</li>
+                            <li class="menu__list__item">Триллер</li>
+                            <li class="menu__list__item">Вестерн</li>
+                            <li class="menu__list__item">Ужасы</li>
+                            <li class="menu__list__item">Триллер</li>
+                            <li class="menu__list__item">Вестерн</li>
+                            <li class="menu__list__item">Ужасы</li>
+                            <li class="menu__list__item">Триллер</li>
+                        </ul>
+                    </div>
+                    <div class="types">
+                        <button class="types__item">Фильмы</button>
+                        <button class="types__item">Сериалы</button>
+                        <button class="types__item">Российские</button>
+                        <button class="types__item">Зарубежные</button>
+                        <button class="types__item">С высоким рейтингом</button>
+                    </div>          
+                    <div class="settings__extended-button">
+                        <button>
+                            <i class="fa fa-cog fa-2x" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="list" id="root">
+
+            </div>
+
+        </div>
+    </div>
+    <div class="modal">
+        <div class="modal__window">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit unde consequatur quisquam voluptates tempore, non eius consequuntur mollitia aspernatur recusandae sint beatae harum officiis dolorum ipsum possimus natus delectus magni.
+            <button class="modal__close-button">Закрыть</button>
+        </div>
+    </div>
+</body>
+</html>
