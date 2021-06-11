@@ -1,18 +1,26 @@
 import time
 import requests
+import configparser
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
 
-def delay():
-    time.sleep(2)
+def delay(sec):
+    time.sleep(sec)
 
 
 def parsingTable(page):
-    while True:
-        delay()
+    config = configparser.ConfigParser()
+    config.read("settings.ini")
 
-        response_table = getResponseTable(page)
+    link_table = config["parsingTable"]["link"].replace('"', '').format(page)
+    DELAY = int(config["main"]["delay"])
+    TIMEOUT = int(config["main"]["timeout"])
+
+    while True:
+        delay(DELAY)
+
+        response_table = getResponseTable(link_table, TIMEOUT)
         if response_table is None:
             print("Err: no internet connection.")
             continue
@@ -35,11 +43,9 @@ def parsingTable(page):
         return len_films, ids_films, values_films
 
 
-def getResponseTable(current_page):
-    link_table = f"https://www.kinopoisk.ru/lists/navigator/?page={current_page}&sort=popularity&tab=all"
-
+def getResponseTable(link, timeout):
     try:
-        return requests.get(link_table, headers={'User-Agent': UserAgent().chrome}, timeout=10)
+        return requests.get(link, headers={'User-Agent': UserAgent().chrome}, timeout=timeout)
     except:
         return None
 

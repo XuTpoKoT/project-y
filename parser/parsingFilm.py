@@ -1,16 +1,15 @@
 import time
 import requests
+import configparser
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
 
-def delay():
-    time.sleep(2)
+def delay(sec):
+    time.sleep(sec)
 
 
 def parsingFilm(id):
-    delay()
-
     data_film = {
         "id": id[6:-1],
         "type": "1",
@@ -34,10 +33,17 @@ def parsingFilm(id):
         "count_imdb": None
     }
 
-    while True:
-        link_film = "https://www.kinopoisk.ru" + id
+    config = configparser.ConfigParser()
+    config.read("settings.ini")
 
-        response_film = getResponseFilm(link_film)
+    link_film = config["parsingFilm"]["link"].replace('"', '') + id
+    DELAY = int(config["main"]["delay"])
+    TIMEOUT = int(config["main"]["timeout"])
+
+    while True:
+        delay(DELAY)
+
+        response_film = getResponseFilm(link_film, TIMEOUT)
         if response_film is None:
             print("Err: no internet connection.")
             continue
@@ -104,9 +110,9 @@ def parsingFilm(id):
         return data_film
 
 
-def getResponseFilm(link):
+def getResponseFilm(link, timeout):
     try:
-        return requests.get(link, headers={'User-Agent': UserAgent().chrome}, timeout=10)
+        return requests.get(link, headers={'User-Agent': UserAgent().chrome}, timeout=timeout)
     except:
         return None
 
