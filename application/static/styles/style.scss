@@ -1,0 +1,350 @@
+* {
+    a { text-decoration: none; }
+    li { list-style-type: none; }
+    color: #2e3346;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.container {
+    margin: 0 auto;
+    width: 1150px;
+}
+
+// Шрифты (Roboto)
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap');
+
+// Подключать к самому блоку 
+@mixin NeuForMainBlocks {
+    border-radius: 13px;
+    background: #f9fafa;
+    box-shadow:  4px 4px 4px #e0e1e1,
+                -4px -4px 4px #ffffff;
+    @content;
+}
+
+// Подключать к самому блоку 
+@mixin NeuForAccount {
+    background: linear-gradient(135deg,#b894d6, #8da6db);
+    border-radius: 13px;
+    box-shadow:  2px 2px 7px #8da6dd,
+                -2px -2px 7px #ceabeb;
+}
+
+// Подключать к РОДИТЕЛЬСКОМУ блоку
+@mixin NeuButtons {
+    button {
+        border: 0;
+    }
+    button:hover {
+        cursor: pointer;
+    }
+    button:focus {
+        outline: none;
+    }
+    button:active {
+        outline: none;
+        border-radius: 13px;
+        background: #f9fafa;
+        box-shadow: inset 4px 4px 4px #e0e1e1,
+                    inset -4px -4px 4px #ffffff;
+    }
+}
+
+$movieListHeight: 540px;
+$movieListWidth: 785px;
+
+// Модальное окно
+.modal {
+    top: 0%;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(0,0,0,.5);
+    display: grid;
+    place-items: center;
+    &__window {
+        border-radius: 10px;
+        background-color: #f0f0f0;
+        width: 350px;
+        height: 500px;
+    }
+    &__close-button {
+        padding: 5px 10px 5px 10px;
+        @include NeuForMainBlocks();
+    }
+    @include NeuButtons();
+}
+.inactive { display: none; }
+
+
+// Блок Header
+.header {
+    background: linear-gradient(90deg,#b894d6, #8da6db);
+    height: 50px;
+    .container {
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .search {
+        margin: 0 0 0 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        input {
+            &:hover {
+                cursor: pointer;
+            }
+            &:focus {
+                outline: none;
+            }
+            padding: 0 0 0 10px;
+            border: 0;
+            border-radius: 5px;
+            background-color: rgba(255,255,255,.5);
+            background-image: url('./icons/searchIcon.png');
+            background-repeat: no-repeat;
+            background-position: 10px center;
+            font-size: 20px;
+            width: 300px;
+            height: 40px;
+            padding: 0 0 0 40px;
+        }
+        &__icon {
+            width: 45px;
+            border-radius: 0 15px 15px 0;
+            border: 1px #2e3346 solid;
+            height: 30px;
+            background-color: rgb(158, 152, 152);
+        }
+    }
+    &__wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 40px;
+        span {
+            color: white;
+        }
+    }
+    &__profile {
+        padding: 0 10px 0 10px;
+        max-height: 45px;
+        width: 140px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &__nickname {
+            color: white;
+        }
+        &:hover { cursor: pointer; }    
+    }
+    &__profile__menu {
+        position: absolute;
+        width: 280px;
+        @include NeuForMainBlocks();
+        li {
+            padding: 10px 16px 10px 16px;
+            text-align: left;
+        }
+        display: none;
+        &_active {
+            display: block;
+        }
+    }  
+}
+
+// Блок рекомендаций
+.recommendations {
+    font-weight: 300;
+    font-size: 20px;
+    padding: 15px;
+    margin: 20px 0 0 0;
+    height: 315px;
+    display: flex;
+    flex-direction: column;
+    @include NeuForMainBlocks;
+    span { font-size: 20px; }
+    &__wrap {
+        margin: 10px 0;
+        width: 100%;
+    }
+    .slider {
+        display: flex;
+        justify-content: space-around;
+        width: 1120px;
+        &__item {
+            min-width: 170px;
+            height: 250px;
+            @include NeuForMainBlocks;
+            display: none;
+        }
+        &__item_active { display: block; }
+        &__button-left, &__button-right {
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            button {
+                @include NeuForMainBlocks();
+                width: 35px;
+                height: 35px;
+            }
+            @include NeuButtons();
+        }
+        &__button-left {margin: -135px 0 0 15px;}
+        &__button-right {margin: -135px 0 0 1070px}
+    }
+}
+
+// Блок со списком фильмов
+.movies {
+    margin: 25px 0;
+    display: flex;
+    justify-content: space-between;
+    .list {
+        display: flex;
+        flex-wrap: wrap;
+        width: $movieListWidth;
+        height: $movieListHeight;
+        @include NeuForMainBlocks;
+        justify-content: space-around;
+        align-items: center;
+        &__item {
+            display: flex;
+            width: 48%;
+            height: 120px;
+            background-color: red;
+            &__info {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                width: 100%;
+                &__title {
+                    background-color: pink;
+                }
+                &__original-title {
+                    background-color: yellow;
+                }
+            }
+            &__rating {
+                line-height: 120px;
+                text-align: center;
+                background-color: aqua;
+                width: 100px;
+            }
+        }
+    }
+}
+
+// Блок с инфой о личном кабинете и с настроками фильмов
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 350px;
+    height: $movieListHeight;
+     
+    .account {
+        padding: 15px;
+        height: 170px;
+        @include NeuForAccount;
+
+        &__wrap {
+            height: 70px;
+            display: flex;
+        }
+
+        &__data {
+            margin: 5px 0 0 15px;
+            &__login { font-weight: 100; }
+            &__initials { font-weight: 400; }
+        }
+
+        &__info {
+            font-weight: 100;
+            font-size: 16px;
+            margin: 15px 0;
+        }
+
+        span { color: white; }
+    }
+    .settings {
+        padding: 15px;
+        height: 340px;
+        @include NeuForMainBlocks;
+        .types {
+            margin: 30px 0 0 0;
+            @include NeuButtons;
+            display: flex;
+            flex-wrap: wrap;
+            row-gap: 10px;
+            column-gap: 15px;
+            &__item {
+                font-size: 16px;
+                font-weight: 300;
+                padding: 10px 15px 10px 15px;
+                @include NeuForMainBlocks;
+                text-align: center;
+            }
+        }
+        // Блок с меню
+        .menu {
+            &__title span { font-weight: 300; font-size: 20px;}
+            &__button {
+                // Меняем местами фото стрелок местами при клике на меню
+                i { 
+                    margin: 0 15px 0 0;
+                }
+                @include NeuForMainBlocks();
+                &_active { @include NeuForMainBlocks() { border-radius: 13px 13px 0 0; };}     
+
+                span { font-weight: 300; font-size: 16px; }
+                span { margin: 0 0 0 15px; }
+                img { margin: 0 15px 0 0; }
+                &:hover { cursor: pointer; }
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                height: 35px;
+                margin: 10px 0 0 0;
+                width: 320px;
+            }
+            &__list {
+                position: absolute;
+                height: 140px;
+                overflow-y: scroll;
+                margin-top: 15px;
+                width: 320px;
+                &_active { display: block; }
+                display: none;
+                @include NeuForMainBlocks();
+                &__line {
+                    height: 1px;
+                    background-color: #000;
+                }
+                &__item {
+                    padding: 6px 16px 6px 16px;
+                    text-align: left;
+                    font-weight: 400; 
+                    font-size: 14px;
+                }          
+            }
+        }
+        // Кнопка расширенных настроек
+        &__extended-button {
+            margin: 40px auto;
+            $extended-button-measures: 35px;
+            width: $extended-button-measures;
+            button {
+                @include NeuForMainBlocks();
+                width: $extended-button-measures;
+                height: $extended-button-measures;
+            }
+            &_inactive { display: none; }
+            @include NeuButtons();
+        }
+    }
+}
