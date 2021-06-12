@@ -66,14 +66,14 @@ def from_film_info(film_info):
 def to_rating(data_film):
     result = []
 
-    temp = data_film["result"]
+    temp = data_film["rating"]
     if temp is not None:
         temp = float(temp)
     result.append(temp)
 
     result.append(count2int(data_film["count"]))
 
-    temp = data_film["result_imdb"]
+    temp = data_film["rating_imdb"]
     if temp is not None:
         temp = float(temp)
     result.append(temp)
