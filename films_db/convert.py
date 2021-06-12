@@ -14,15 +14,6 @@ def runtime2int(runtime):
     except:
         return None
 
-def str2text(s):
-    """
-    Приводит строку к TEXT
-
-    Если строка равна "—", то вернется None, иначе исходная строка
-    """
-    return None if s == "—" else s
-
-    
 def convert_film_info(data_film):
     """
     Преобразует данные из парсера в данные для записи в базу  
@@ -36,7 +27,7 @@ def convert_film_info(data_film):
     temp = (data_film["title"])
     film_info.append(temp)
 
-    temp = str2text(data_film["original_title"])
+    temp = data_film["original_title"]
     film_info.append(temp)
 
     try:
@@ -46,10 +37,10 @@ def convert_film_info(data_film):
 
     film_info.append(temp)
 
-    temp = str2text(data_film["country"])
+    temp = data_film["country"]
     film_info.append(temp)
 
-    temp = str2text(data_film["budget"])
+    temp = data_film["budget"]
     film_info.append(temp)
 
     temp = runtime2int(data_film["runtime"])
@@ -58,10 +49,10 @@ def convert_film_info(data_film):
     temp = data_film["world_gross"].split("=")[1].strip()
     film_info.append(temp)
 
-    temp = str2text(data_film["age"])
+    temp = data_film["age"]
     film_info.append(temp)
 
-    temp = str2text(data_film["description"])
+    temp = data_film["description"]
     film_info.append(temp)
 
     return tuple(film_info)
