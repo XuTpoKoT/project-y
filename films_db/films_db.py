@@ -231,12 +231,110 @@ def print_all_films():
     print()
 
 
+def get_data_film(film_id):
+    data_film = {}
+
+    # Информация о фильме
+    cur.execute("SELECT * "
+                "FROM film_info "
+                "WHERE film_id = ?", (film_id,))
+    film_info = cur.fetchone()
+
+    (_,
+     film_type,
+     title,
+     original_title,
+     year,
+     country,
+     budget,
+     runtime,
+     world_gross,
+     age,
+     description) = film_info
+
+    cur.execute("SELECT name "
+                "FROM film_types "
+                "WHERE type = ?", (film_type,))
+
+    data_film["type"] = cur.fetchone()[0]
+    data_film["title"] = convert.value2str(title)
+    data_film["original_title"] = convert.value2str(original_title)
+    data_film["year"] = convert.value2str(year)
+    data_film["country"] = convert.value2str(country)
+    data_film["budget"] = convert.value2str(budget)
+    data_film["runtime"] = convert.value2str(runtime)
+    data_film["world_gross"] = convert.value2str(world_gross)
+    data_film["age"] = convert.value2str(age)
+    data_film["description"] = convert.value2str(description)
+
+    # Режиссеры
+    cur.execute("SELECT output_name "
+                "FROM directors "
+                "WHERE director_id IN "
+                "(select director_id from directors_films "
+                "WHERE film_id = ?)", (film_id,))
+
+    directors = cur.fetchall()
+    if len(directors) == 0:
+        directors = "—"
+    else:
+        directors = [director for (director,) in directors]
+
+    data_film["director"] = ", ".join(directors)
+
+    # Актеры
+    cur.execute("SELECT output_name "
+                "FROM actors "
+                "WHERE actor_id IN "
+                "(select actor_id from actors_films "
+                "WHERE film_id = ?)", (film_id,))
+
+    actors = cur.fetchall()
+    if len(actors) == 0:
+        actors = "—"
+    else:
+        actors = [actor for (actor,) in actors]
+
+    data_film["actors"] = ", ".join(actors)
+
+    # Жанры
+    cur.execute("SELECT genre "
+                "FROM genres "
+                "WHERE genre_id IN "
+                "(select genre_id from genres_films "
+                "WHERE film_id = ?)", (film_id,))
+
+    genres = cur.fetchall()
+    if len(genres) == 0:
+        genres = "—"
+    else:
+        genres = [genre for (genre,) in genres]
+
+    data_film["genres"] = ", ".join(genres)
+
+    # Рейтинг
+    cur.execute("SELECT kinopoisk, kinopoisk_count, imdb, imdb_count "
+                "FROM rating "
+                "WHERE film_id = ?", (film_id,))
+    rating = cur.fetchone()
+
+    data_film["kinopoisk"] = convert.value2str(rating[0])
+    data_film["kinopoisk_count"] = convert.value2str(rating[1])
+    data_film["imdb"] = convert.value2str(rating[2])
+    data_film["imdb_count"] = convert.value2str(rating[3])
+
+    # cur.execute()
+
+    # film_info["image"] = ""
+    # print(directors)
+    # print(actors)
+    # print(genres)
+    return data_film
+
 if __name__ == "__main__":
     init()
 
-    print_all_films()
-
-
+    # print_all_films()
     def test_insert():
 
         with open("../test_data_film/1.json") as f:
@@ -245,6 +343,5 @@ if __name__ == "__main__":
         for film in films:
             insert_film(film)
 
-
-    test_insert()
-    print_all_films()
+    # test_insert()
+    # print_all_films()
