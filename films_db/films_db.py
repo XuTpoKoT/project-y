@@ -82,6 +82,7 @@ def init():
     # url же TEXT?
     cur.execute("""CREATE TABLE IF NOT EXISTS images_films(
         film_id INTEGER, 
+        img_path TEXT,
         url TEXT);
     """)
 
@@ -184,12 +185,12 @@ def insert_film(data_film):
     cur.execute("DELETE FROM temp_actors")
     cur.execute("DELETE FROM temp_genres")
 
-    images_films_val = (film_id, data_film.get("image_url"))
+    images_films_val = (film_id, data_film.get("image"), data_film.get("image_url"))
 
     rating = (film_id, *convert.convert_rating(data_film))
 
     # Сохраняем ссылку на постер фильма
-    cur.execute("INSERT INTO images_films VALUES(?, ?)", images_films_val)
+    cur.execute("INSERT INTO images_films VALUES(?, ?, ?)", images_films_val)
 
     # Сохраняем рейтинг фильма
     cur.execute("INSERT INTO rating VALUES(?, ?, ?, ?, ?);", rating)
