@@ -1,3 +1,5 @@
+# import films_db
+
 def count2int(count):
     if count is None:
         return None
@@ -25,7 +27,7 @@ def convert_film_info(data_film):
 
     film_info = []
 
-    temp = 0 if data_film["type"] == "фильм" else 1
+    temp = int(data_film["type"])
     film_info.append(temp)
 
     temp = (data_film["title"])
@@ -86,3 +88,8 @@ def convert_rating(data_film):
     rating.append(count2int(data_film["count_imdb"]))
 
     return rating
+
+def value2str(text):
+    if text is None:
+        text = "—"
+    return text
