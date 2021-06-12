@@ -26,7 +26,7 @@ def parsingFilm(id):
         "actors": None,
         "description": None,
         "image": None,
-        "imageUrl": None,
+        "image_url": None,
         "rating": None,
         "count": None,
         "rating_imdb": None,
