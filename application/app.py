@@ -8,7 +8,6 @@ app = Flask(__name__)
 # Роут основной страницы
 @app.route('/', methods=['GET', 'POST'])
 def main_page():
-
     films = [
         {
             "title": "Матрица",
@@ -41,7 +40,6 @@ def main_page():
             "imageUrl": "",
         },
     ]
-
     return render_template('index.html', articles=films)
 
 if __name__ == '__main__':
