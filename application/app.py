@@ -40,7 +40,26 @@ def main_page():
             "imageUrl": "",
         },
     ]
-    return render_template('index.html', articles=films)
+    genres = [
+        'вестерн',
+        'ужасы',
+        'приключения',
+        'документальный',
+        'аниме',
+        'документальный',
+        'фэнтези',
+        'комедия',
+        'музыка',
+        'мелодрама',
+        'мюзикл',
+        'мультфильм',
+        'короткометражка',
+        'семейный',
+        'драма',
+        'криминал',
+        'детектив',
+    ]
+    return render_template('index.html', articles=[films, genres])
 
 if __name__ == '__main__':
     app.run(debug=True)

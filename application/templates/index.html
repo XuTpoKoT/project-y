@@ -15,7 +15,14 @@
             <div class="header__wrap">
                 <div class="header__logo"><span>LOGOTYPE</span></div>
                 <div class="search">
-                    <input type="text" placeholder="Поиск" />
+                    <input type="text" placeholder="Поиск" class="input__header"/>
+                    <ul class="input__menu">
+                        {% for elem in articles[0] %}
+                        <li class="input__menu__item">
+                            {{ elem.title }}
+                        </li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
             <div class="header__profile__wrap">
@@ -87,18 +94,9 @@
                             <i class="fa fa-caret-down fa-1x menu-icon" aria-hidden="true"></i>
                         </div>
                         <ul class="menu__list">
-                            <li class="menu__list__item">Вестерн</li>
-                            <li class="menu__list__item">Ужасы</li>
-                            <li class="menu__list__item">Триллер</li>
-                            <li class="menu__list__item">Вестерн</li>
-                            <li class="menu__list__item">Ужасы</li>
-                            <li class="menu__list__item">Триллер</li>
-                            <li class="menu__list__item">Вестерн</li>
-                            <li class="menu__list__item">Ужасы</li>
-                            <li class="menu__list__item">Триллер</li>
-                            <li class="menu__list__item">Вестерн</li>
-                            <li class="menu__list__item">Ужасы</li>
-                            <li class="menu__list__item">Триллер</li>
+                            {% for genre in articles[1] %}
+                            <li class="menu__list__item">{{ genre }}</li>
+                            {% endfor %}
                         </ul>
                     </div>
                     <div class="types">
@@ -117,7 +115,7 @@
             </div>
 
             <div class="list" id="root">
-                {% for elem in articles %}
+                {% for elem in articles[0] %}
                 <div class="list__item">
                     <div class="list__item__image">
                         {{ elem.imageUrl }}

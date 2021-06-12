@@ -54,6 +54,8 @@
 
 $movieListHeight: 540px;
 $movieListWidth: 785px;
+$headerInputWidth: 500px;
+$headerInputHeight: 40px;
 
 // Модальное окно
 .modal {
@@ -78,7 +80,6 @@ $movieListWidth: 785px;
 }
 .inactive { display: none; }
 
-
 // Блок Header
 .header {
     background: linear-gradient(90deg,#b894d6, #8da6db);
@@ -100,6 +101,7 @@ $movieListWidth: 785px;
             }
             &:focus {
                 outline: none;
+                background-color: white;
             }
             padding: 0 0 0 10px;
             border: 0;
@@ -109,9 +111,35 @@ $movieListWidth: 785px;
             background-repeat: no-repeat;
             background-position: 10px center;
             font-size: 20px;
-            width: 300px;
-            height: 40px;
+            width: $headerInputWidth;
+            height:$headerInputHeight;
             padding: 0 0 0 40px;
+        }
+        .input__menu {
+            padding: 15px 15px 0 15px;
+            overflow-y: scroll;
+            display: none;
+            position: absolute;
+            width: $headerInputWidth;
+            top: $headerInputHeight + 20px;
+            height: 500px;
+            background-color: white;
+            border-radius: 5px;
+            @include NeuForMainBlocks();
+            &__item {
+                display: flex;
+                height: 145px;
+                @include NeuForMainBlocks();
+                margin-bottom: 15px;
+                &__image {
+                    border-radius: 13px 0 0 13px;
+                    width: 100px;
+                    background-color: aqua;
+                }
+            }
+            &_active {
+                display: block;
+            }
         }
         &__icon {
             width: 45px;
@@ -206,7 +234,7 @@ $movieListWidth: 785px;
     justify-content: space-between;
     .list {
         overflow-y: scroll;
-        padding: 15px;
+        padding: 15px 15px 0 15px;
         width: $movieListWidth;
         height: $movieListHeight;
         @include NeuForMainBlocks;
