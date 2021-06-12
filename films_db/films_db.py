@@ -6,7 +6,8 @@ import convert
 conn = sqlite3.connect("films.sql")
 cur = conn.cursor()
 
-def init_db():
+
+def init():
     """
     Инициализация базы данных
     """
@@ -30,7 +31,7 @@ def init_db():
         year INT NOT NULL CHECK (year > 1888),
         country TEXT,
         budget TEXT,
-        runtime INT, -- В минутах --
+        runtime TEXT,
         world_gross TEXT,
         age TEXT,
         description TEXT,
@@ -86,10 +87,10 @@ def init_db():
 
     cur.execute("""CREATE TABLE IF NOT EXISTS rating(
         film_id INTEGER PRIMARY KEY ASC,
-        kinopoisk REAL NOT NULL,
-        kinopoisk_count INT NOT NULL,
-        imdb REAL NOT NULL,
-        imdb_count INT NOT NULL,
+        kinopoisk REAL,
+        kinopoisk_count INT,
+        imdb REAL,
+        imdb_count INT,
         FOREIGN KEY (film_id) REFERENCES film_info(film_id))
     """)
 
@@ -103,9 +104,20 @@ def insert_film(data_film):
 
     film_info = convert.convert_film_info(data_film)
 
-    directors = [(i.strip(), i.strip().lower()) for i in data_film["director"].split(",")]
-    actors = [(i.strip(), i.strip().lower()) for i in data_film["actors"].split(",")]
-    genres = [(i.strip(),) for i in data_film["genres"].split(",")]
+    if data_film["director"] is None:
+        directors = tuple()
+    else:
+        directors = [(i.strip(), i.strip().lower()) for i in data_film["director"].split(",")]
+
+    if data_film["actors"] is None:
+        actors = tuple()
+    else:
+        actors = [(i.strip(), i.strip().lower()) for i in data_film["actors"].split(",")]
+
+    if data_film["genres"] is None:
+        genres = tuple()
+    else:
+        genres = [(i.strip(),) for i in data_film["genres"].split(",")]
 
     # Создаем временные таблицы для хранения режиссеров, актеров и жанров фильма
     cur.execute("CREATE TEMP TABLE IF NOT EXISTS temp_directors(search_name, output_name)")
@@ -118,8 +130,10 @@ def insert_film(data_film):
     cur.executemany("INSERT INTO temp_genres(genre) VALUES(?)", genres)
 
     # Записываем данные из верменных таблиц в основные таблицы
-    cur.execute("INSERT OR IGNORE INTO directors(search_name, output_name) SELECT search_name, output_name FROM temp_directors")
-    cur.execute("INSERT OR IGNORE INTO actors(search_name, output_name) SELECT search_name, output_name FROM temp_actors")
+    cur.execute(
+        "INSERT OR IGNORE INTO directors(search_name, output_name) SELECT search_name, output_name FROM temp_directors")
+    cur.execute(
+        "INSERT OR IGNORE INTO actors(search_name, output_name) SELECT search_name, output_name FROM temp_actors")
     cur.execute("INSERT OR IGNORE INTO genres(genre) SELECT genre FROM temp_genres")
 
     # Записываем онсовную информацию о фильме в таблицу filM_info
@@ -147,11 +161,17 @@ def insert_film(data_film):
         return False
 
     # Записываем данные в таблицы соответствий для фильма и соответственно режиссеров, актеров и жанров
-    director_ids = cur.execute("SELECT director_id FROM directors WHERE search_name IN temp_directors")
+    director_ids = cur.execute("SELECT director_id "
+                               "FROM directors "
+                               "WHERE search_name IN "
+                               "(SELECT search_name FROM temp_directors)")
     directors_films = [(director_id, film_id) for (director_id,) in director_ids]
     cur.executemany("INSERT INTO directors_films VALUES(?, ?)", directors_films)
 
-    actor_ids = cur.execute("SELECT actor_id FROM actors WHERE search_name IN temp_actors")
+    actor_ids = cur.execute("SELECT actor_id "
+                            "FROM actors "
+                            "WHERE search_name IN "
+                            "(SELECT search_name FROM temp_actors)")
     actors_films = [(actor_id, film_id) for (actor_id,) in actor_ids]
     cur.executemany("INSERT INTO actors_films VALUES(?, ?)", actors_films)
 
@@ -164,15 +184,9 @@ def insert_film(data_film):
     cur.execute("DELETE FROM temp_actors")
     cur.execute("DELETE FROM temp_genres")
 
-    images_films_val = (film_id, convert.str2text(data_film["image_url"]))
+    images_films_val = (film_id, data_film.get("image_url"))
 
-    rating = (
-        film_id,
-        float(data_film["rating"]),
-        convert.count2int(data_film["count"]),
-        float(data_film["rating_imdb"]),
-        convert.count2int(data_film["count_imdb"])
-    )
+    rating = (film_id, *convert.convert_rating(data_film))
 
     # Сохраняем ссылку на постер фильма
     cur.execute("INSERT INTO images_films VALUES(?, ?)", images_films_val)
@@ -218,7 +232,7 @@ def print_all_films():
 
 
 if __name__ == "__main__":
-    init_db()
+    init()
 
     print_all_films()
 
@@ -230,6 +244,7 @@ if __name__ == "__main__":
 
         for film in films:
             insert_film(film)
+
 
     test_insert()
     print_all_films()
