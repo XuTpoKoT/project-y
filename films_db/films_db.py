@@ -1,4 +1,3 @@
-import json
 import sqlite3
 
 import convert
@@ -103,17 +102,17 @@ def insert_film(data_film):
     Помещает данные о фильме в таблицу
     """
 
-    film_info = convert.convert_film_info(data_film)
+    film_info = convert.to_film_info(data_film)
 
     if data_film["director"] is None:
         directors = tuple()
     else:
-        directors = [(i.strip(), i.strip().lower()) for i in data_film["director"].split(",")]
+        directors = [(i.strip().lower(), i.strip()) for i in data_film["director"].split(",")]
 
     if data_film["actors"] is None:
         actors = tuple()
     else:
-        actors = [(i.strip(), i.strip().lower()) for i in data_film["actors"].split(",")]
+        actors = [(i.strip().lower(), i.strip()) for i in data_film["actors"].split(",")]
 
     if data_film["genres"] is None:
         genres = tuple()
@@ -187,7 +186,7 @@ def insert_film(data_film):
 
     images_films_val = (film_id, data_film.get("image"), data_film.get("image_url"))
 
-    rating = (film_id, *convert.convert_rating(data_film))
+    rating = (film_id, *convert.to_rating(data_film))
 
     # Сохраняем ссылку на постер фильма
     cur.execute("INSERT INTO images_films VALUES(?, ?, ?)", images_films_val)
@@ -241,32 +240,13 @@ def get_data_film(film_id):
                 "WHERE film_id = ?", (film_id,))
     film_info = cur.fetchone()
 
-    (_,
-     film_type,
-     title,
-     original_title,
-     year,
-     country,
-     budget,
-     runtime,
-     world_gross,
-     age,
-     description) = film_info
+    data_film.update(convert.from_film_info(film_info))
 
     cur.execute("SELECT name "
                 "FROM film_types "
-                "WHERE type = ?", (film_type,))
+                "WHERE type = ?", (film_info[1],))
 
     data_film["type"] = cur.fetchone()[0]
-    data_film["title"] = convert.value2str(title)
-    data_film["original_title"] = convert.value2str(original_title)
-    data_film["year"] = convert.value2str(year)
-    data_film["country"] = convert.value2str(country)
-    data_film["budget"] = convert.value2str(budget)
-    data_film["runtime"] = convert.value2str(runtime)
-    data_film["world_gross"] = convert.value2str(world_gross)
-    data_film["age"] = convert.value2str(age)
-    data_film["description"] = convert.value2str(description)
 
     # Режиссеры
     cur.execute("SELECT output_name "
@@ -319,30 +299,10 @@ def get_data_film(film_id):
                 "WHERE film_id = ?", (film_id,))
     rating = cur.fetchone()
 
-    data_film["kinopoisk"] = convert.value2str(rating[0])
-    data_film["kinopoisk_count"] = convert.value2str(rating[1])
-    data_film["imdb"] = convert.value2str(rating[2])
-    data_film["imdb_count"] = convert.value2str(rating[3])
+    data_film.update(convert.from_rating(rating))
 
-    # cur.execute()
-
-    # film_info["image"] = ""
-    # print(directors)
-    # print(actors)
-    # print(genres)
     return data_film
+
 
 if __name__ == "__main__":
     init()
-
-    # print_all_films()
-    def test_insert():
-
-        with open("../test_data_film/1.json") as f:
-            films = json.load(f)
-
-        for film in films:
-            insert_film(film)
-
-    # test_insert()
-    # print_all_films()
