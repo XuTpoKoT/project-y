@@ -1,5 +1,3 @@
-# import films_db
-
 def count2int(count):
     if count is None:
         return None
@@ -10,50 +8,35 @@ def count2int(count):
         return None
     if pos == -1:
         return int(count)
-    return (int(float(count[:pos]) * 1000))
+    return int(float(count[:pos]) * 1000)
 
 
-def runtime2int(runtime):
-    try:
-        return int(runtime.split()[0])
-    except:
-        return None
+def value2str(text):
+    if text is None:
+        text = "—"
+    return text
 
 
-def convert_film_info(data_film):
+def to_film_info(data_film):
     """
     Преобразует данные из парсера в данные для записи в базу  
     """
+    film_info = [data_film["type"], data_film["title"]]
 
-    film_info = []
-
-    temp = int(data_film["type"])
-    film_info.append(temp)
-
-    temp = (data_film["title"])
-    film_info.append(temp)
-
-    temp = data_film["original_title"]
-    if temp is not None:
-        film_info.append(temp)
+    if data_film["original_title"] is not None:
+        film_info.append(data_film["original_title"])
     else:
         film_info.append(data_film["title"])
 
     try:
         temp = int(data_film["year"].split()[0])
-    except:
+    except ValueError:
         temp = None
-
     film_info.append(temp)
 
-    temp = data_film["country"]
-    film_info.append(temp)
-
-    temp = data_film["budget"]
-    film_info.append(temp)
-
-    temp = runtime2int(data_film["runtime"])
-    film_info.append(temp)
+    film_info.append(data_film["country"])
+    film_info.append(data_film["budget"])
+    film_info.append(data_film["runtime"])
 
     temp = data_film["world_gross"]
     if temp is not None:
@@ -61,35 +44,48 @@ def convert_film_info(data_film):
             temp = temp.split("=")[1].strip()
     film_info.append(temp)
 
-    temp = data_film["age"]
-    film_info.append(temp)
-
-    temp = data_film["description"]
-    film_info.append(temp)
+    film_info.append(data_film["age"])
+    film_info.append(data_film["description"])
 
     return tuple(film_info)
 
 
-def convert_rating(data_film):
-    rating = []
+def from_film_info(film_info):
+    result = {"title": value2str(film_info[2]),
+              "original_title": value2str(film_info[3]),
+              "year": value2str(film_info[4]),
+              "country": value2str(film_info[5]),
+              "budget": value2str(film_info[6]),
+              "runtime": value2str(film_info[7]),
+              "world_gross": value2str(film_info[8]),
+              "age": value2str(film_info[9]),
+              "description": value2str(film_info[10])}
+    return result
 
-    temp = data_film["rating"]
+
+def to_rating(data_film):
+    result = []
+
+    temp = data_film["result"]
     if temp is not None:
         temp = float(temp)
-    rating.append(temp)
+    result.append(temp)
 
-    rating.append(count2int(data_film["count"]))
+    result.append(count2int(data_film["count"]))
 
-    temp = data_film["rating_imdb"]
+    temp = data_film["result_imdb"]
     if temp is not None:
         temp = float(temp)
-    rating.append(temp)
+    result.append(temp)
 
-    rating.append(count2int(data_film["count_imdb"]))
+    result.append(count2int(data_film["count_imdb"]))
 
-    return rating
+    return tuple(result)
 
-def value2str(text):
-    if text is None:
-        text = "—"
-    return text
+
+def from_rating(rating):
+    result = {"kinopoisk": value2str(rating[0]),
+              "kinopoisk_count": value2str(rating[1]),
+              "imdb": value2str(rating[2]),
+              "imdb_count": value2str(rating[3])}
+    return result
