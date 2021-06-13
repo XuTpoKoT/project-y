@@ -105,6 +105,9 @@ def film_page(id):
 
     film = films_db.get_data_film(id, cur)
 
+    all_actors = film['actors'].split(', ')
+    film['actors'] = all_actors
+
     return render_template('page.html', 
         film=film)
 if __name__ == '__main__':

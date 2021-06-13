@@ -479,3 +479,42 @@ $infoHeight: 70px;
         }
     }
 }
+
+.full__film__info{
+    height: 900px;
+    background-color: black;
+    display: flex;
+    .wrap1 {
+        display: block;
+    }
+    .wrap2 {
+        display: flex;
+    }
+    &__image {
+        width: 200px;
+        height: 300px;
+        @include NeuForMainBlocks();
+    }
+    &__about {
+        width: 500px;
+        height: 300px;
+        @include NeuForMainBlocks();
+    }
+    &__sidebar {
+        width: 350px;
+        height: 500px;
+    }
+    &__descr {
+        width: 700px;
+        height: 500px;
+        @include NeuForMainBlocks();
+    }
+    &__rating {
+        height: 100px;
+        @include NeuForMainBlocks();
+    }
+    &__actors {
+        height: 700px;
+        @include NeuForMainBlocks();
+    }
+}

@@ -753,4 +753,70 @@ img {
   -webkit-box-shadow: inset 4px 4px 4px #e0e1e1, inset -4px -4px 4px #ffffff;
           box-shadow: inset 4px 4px 4px #e0e1e1, inset -4px -4px 4px #ffffff;
 }
+
+.full__film__info {
+  height: 900px;
+  background-color: black;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.full__film__info .wrap1 {
+  display: block;
+}
+
+.full__film__info .wrap2 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.full__film__info__image {
+  width: 200px;
+  height: 300px;
+  border-radius: 13px;
+  background: #f9fafa;
+  -webkit-box-shadow: 4px 4px 4px #e0e1e1, -4px -4px 4px #ffffff;
+          box-shadow: 4px 4px 4px #e0e1e1, -4px -4px 4px #ffffff;
+}
+
+.full__film__info__about {
+  width: 500px;
+  height: 300px;
+  border-radius: 13px;
+  background: #f9fafa;
+  -webkit-box-shadow: 4px 4px 4px #e0e1e1, -4px -4px 4px #ffffff;
+          box-shadow: 4px 4px 4px #e0e1e1, -4px -4px 4px #ffffff;
+}
+
+.full__film__info__sidebar {
+  width: 350px;
+  height: 500px;
+}
+
+.full__film__info__descr {
+  width: 700px;
+  height: 500px;
+  border-radius: 13px;
+  background: #f9fafa;
+  -webkit-box-shadow: 4px 4px 4px #e0e1e1, -4px -4px 4px #ffffff;
+          box-shadow: 4px 4px 4px #e0e1e1, -4px -4px 4px #ffffff;
+}
+
+.full__film__info__rating {
+  height: 100px;
+  border-radius: 13px;
+  background: #f9fafa;
+  -webkit-box-shadow: 4px 4px 4px #e0e1e1, -4px -4px 4px #ffffff;
+          box-shadow: 4px 4px 4px #e0e1e1, -4px -4px 4px #ffffff;
+}
+
+.full__film__info__actors {
+  height: 700px;
+  border-radius: 13px;
+  background: #f9fafa;
+  -webkit-box-shadow: 4px 4px 4px #e0e1e1, -4px -4px 4px #ffffff;
+          box-shadow: 4px 4px 4px #e0e1e1, -4px -4px 4px #ffffff;
+}
 /*# sourceMappingURL=style.css.map */

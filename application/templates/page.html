@@ -63,14 +63,54 @@
     </div>
     <div class="container">
         <div class="full__film__info">
-            <div class="full__film__info__image">
-                {{ qwd }}
+            <div class="wrap1">
+                <div class="wrap2">
+                    <div class="full__film__info__image">
+                        img
+                    </div>
+                    <div class="full__film__info__about">
+                        <div class="full__film__info__all">
+                            <div class="full__film__info__title">
+                                {{ film['title'] }}
+                            </div>
+                            <div class="full__film__info__original-title">
+                                {{ film['original_title'] }}
+                            </div>
+                            <div class="full__film__info__full-info">
+                                О фильме:
+                                <div class="full__film__info__full-info">Год производства: {{ film['year'] }}</div>
+                                <div class="full__film__info__full-info">Страна: {{ film['country'] }}</div>
+                                <div class="full__film__info__full-info">Жанры: {{ film['genres'] }}</div>
+                                <div class="full__film__info__full-info">Режиссёр: {{ film['director'] }}</div>
+                                <div class="full__film__info__full-info">Бюджет: {{ film['budget'] }}</div>
+                                <div class="full__film__info__full-info">Сборы: {{ film['world_gross'] }}</div>
+                                <div class="full__film__info__full-info">Возраст: {{ film['age'] }}</div>
+                                <div class="full__film__info__full-info">Время: {{ film['runtime'] }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="full__film__info__descr">
+                    Описание фильма:
+                    {{ film['description'] }}
+                    Оценка IMDB:
+                    {{ film['imdb'] }} | {{ film['imdb_count'] }}
+                </div>
             </div>
-            <div class="full__film__info__title">
-                {{ film['title'] }}
+            <div class="full__film__info__sidebar">
+                <div class="full__film__info__rating">
+                    {{ film['imdb'] }} | {{ film['imdb_count'] }}
+                </div>
+                <div class="full__film__info__actors">
+                    Актеры:
+                    {% for actor in film['actors'] %}
+                        <div class="">
+                            {{ actor }}
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
-
 </body>
 </html>
