@@ -12,12 +12,20 @@
     width: 1150px;
 }
 
+
+$movieListHeight: 540px;
+$movieListWidth: 785px;
+$headerInputWidth: 500px;
+$headerInputHeight: 40px;
+$borderRadiusForNeuBlocks: 13px;
+$infoHeight: 70px;
+
 // Шрифты (Roboto)
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap');
 
 // Подключать к самому блоку 
 @mixin NeuForMainBlocks {
-    border-radius: 13px;
+    border-radius: $borderRadiusForNeuBlocks;
     background: #f9fafa;
     box-shadow:  4px 4px 4px #e0e1e1,
                 -4px -4px 4px #ffffff;
@@ -27,7 +35,7 @@
 // Подключать к самому блоку 
 @mixin NeuForAccount {
     background: linear-gradient(135deg,#b894d6, #8da6db);
-    border-radius: 13px;
+    border-radius: $borderRadiusForNeuBlocks;
     box-shadow:  2px 2px 7px #8da6dd,
                 -2px -2px 7px #ceabeb;
 }
@@ -51,11 +59,6 @@
                     inset -4px -4px 4px #ffffff;
     }
 }
-
-$movieListHeight: 540px;
-$movieListWidth: 785px;
-$headerInputWidth: 500px;
-$headerInputHeight: 40px;
 
 // Модальное окно
 .modal {
@@ -120,6 +123,7 @@ $headerInputHeight: 40px;
             overflow-y: scroll;
             display: none;
             position: absolute;
+            z-index: 100;
             width: $headerInputWidth;
             top: $headerInputHeight + 20px;
             height: 500px;
@@ -209,14 +213,53 @@ $headerInputHeight: 40px;
             height: 250px;
             @include NeuForMainBlocks;
             display: none;
+            flex-direction: column;
+            position: relative;
+            align-items: flex-end;
+
+            background-color: rgb(39, 36, 36);
+
+            &__info {
+                padding: 5px;
+                width: 100%;
+                position: absolute;
+                bottom: 0px;
+                height: $infoHeight;
+                border-radius: 0 0 $borderRadiusForNeuBlocks $borderRadiusForNeuBlocks;
+                background-color: #9f9e9f;
+                opacity: 0.7;
+                &__title {
+                    font-weight: 300;
+                    font-size: 14px;
+                    margin-bottom: 5px;
+                }
+                &__genre {
+                    font-weight: 300;
+                    font-size: 12px;
+                }
+            }
+            &__rating {
+                width: 40px;
+                height: 20px;
+                border-radius: 13px;
+                background-color: #1db224;
+                position: absolute;
+                bottom: $infoHeight;
+                order: -1;
+                padding: 2px 11px 2px 11px;
+                font-weight: 300;
+                font-size: 14px;
+                color: white;
+                margin: 5px;
+            }
         }
-        &__item_active { display: block; }
+        &__item_active { display: flex; }
         &__button-left, &__button-right {
             position: absolute;
             width: 35px;
             height: 35px;
             button {
-                @include NeuForMainBlocks();
+                border-radius: $borderRadiusForNeuBlocks;
                 width: 35px;
                 height: 35px;
             }

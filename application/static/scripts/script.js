@@ -84,3 +84,17 @@ profile.addEventListener('click', () => {
 //       settingsButtons = settingsTypes.querySelectorAll('.types__item'),
 //       firstRow = [settingsButtons[0], settingsButtons[1]],
 //       secondRow = [settingsButtons[2], settingsButtons[3]];
+
+//// Работа с кнопками настроек
+const settingsForms = document.querySelectorAll('.settings__form');
+
+for (let settingsForm of settingsForms) {
+    settingsForm.addEventListener('submit', e => {
+        let request = fetch('http://127.0.0.1:5000', { 
+            method: "POST", 
+            headers:{"content-type":"application/json"}
+        })
+                        .then(response => response.text())
+        console.log(request)
+    });
+}

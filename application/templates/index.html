@@ -13,15 +13,17 @@
     <div class="header">
         <div class="container">
             <div class="header__wrap">
-                <div class="header__logo"><span>LOGOTYPE</span></div>
+                <div class="header__logo"><a href="http://127.0.0.1:5000/">LOGOTYPE</a></div>
                 <div class="search">
                     <input type="text" placeholder="Поиск" class="input__header"/>
                     <ul class="input__menu">
-                        {% for elem in articles[0] %}
+
+                        {% for elem in film_list %}
                         <li class="input__menu__item">
                             {{ elem.title }}
                         </li>
                         {% endfor %}
+
                     </ul>
                 </div>
             </div>
@@ -39,26 +41,27 @@
             <span>Может быть, Вам будет интересно</span>
             <div class="recommendations__wrap">
                 <div class="slider">
-                    <div class="slider__item slider__item_active">1
+
+                    {% for film in film_recommendations %}
+                    {% if loop.index <= 6 %}       
+                    <div class="slider__item slider__item_active">          
+                    {% else %}
+                    <div class="slider__item">                         
+                    {% endif %}
+                        <div class="slider__item__info">
+                            <div class="slider__item__info__title">
+                                {{ film['title'] }}
+                            </div>
+                            <div class="slider__item__info__genre">
+                                {{ film['genres'] }}
+                            </div>             
+                        </div>
+                        <div class="slider__item__rating">
+                            {{ film['rating'] }}  
+                        </div>
                     </div>
-                    <div class="slider__item slider__item_active">2
-                    </div>
-                    <div class="slider__item slider__item_active">3
-                    </div>
-                    <div class="slider__item slider__item_active">4
-                    </div>
-                    <div class="slider__item slider__item_active">5
-                    </div>
-                    <div class="slider__item slider__item_active">6
-                    </div>
-                    <div class="slider__item">7
-                    </div>
-                    <div class="slider__item">8
-                    </div>
-                    <div class="slider__item">9
-                    </div>
-                    <div class="slider__item">10
-                    </div>
+                    {% endfor %}   
+
                 </div>
                 <div class="slider__button-left">
                     <button><i class="fa fa-angle-left fa-2x" aria-hidden="true"></i></button>
@@ -94,17 +97,35 @@
                             <i class="fa fa-caret-down fa-1x menu-icon" aria-hidden="true"></i>
                         </div>
                         <ul class="menu__list">
-                            {% for genre in articles[1] %}
+
+                            {% for genre in genres %}
                             <li class="menu__list__item">{{ genre }}</li>
                             {% endfor %}
+
                         </ul>
                     </div>
                     <div class="types">
+                        
+                        <!-- <form class='settings__form'>
+                            <button class="types__item" name="films">
+                                Фильмы
+                            </button>
+                        </form>
+                        <form class='settings__form'>
+                            <button class="types__item" name="films">
+                                Сериалы
+                            </button>
+                        </form>
                         <button class="types__item">Фильмы</button>
                         <button class="types__item">Сериалы</button>
                         <button class="types__item">Российские</button>
                         <button class="types__item">Зарубежные</button>
-                        <button class="types__item">С высоким рейтингом</button>
+                        <button class="types__item">С высоким рейтингом</button> -->
+                        <form class='settings__form' method="post">
+                            <label for="genre">Genre</label>
+                            <input type="genre" name='genre'>
+                            <button>Отправить</button>
+                        </form>
                     </div>          
                     <div class="settings__extended-button">
                         <button>
@@ -113,20 +134,20 @@
                     </div>
                 </div>
             </div>
-
             <div class="list" id="root">
-                {% for elem in articles[0] %}
+
+                {% for film in film_list %}
                 <div class="list__item">
                     <div class="list__item__image">
-                        {{ elem.imageUrl }}
+                        {{ film['imageUrl'] }}
                     </div>
                     <div class="list__item__title">
-                        {{ elem.title }}
+                        {{ film['title'] }}
                     </div>
                 </div>
                 {% endfor %}
-            </div>
 
+            </div>
         </div>
     </div>
     <div class="modal">
