@@ -231,7 +231,7 @@ def print_all_films():
 
 
 def get_data_film(film_id, cur):
-    data_film = {}
+    data_film = {"film_id": film_id}
 
     # Информация о фильме
     cur.execute("SELECT * "
@@ -308,11 +308,12 @@ def get_data_film(film_id, cur):
 
     return data_film
 
+
 def get_genres():
     cur.execute("SELECT name "
                 "FROM genre")
     result = [x[0] for x in cur.fetchall()]
-    return  result
+    return result
 
 
 if __name__ == "__main__":
