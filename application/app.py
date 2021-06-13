@@ -8,6 +8,7 @@ import random
 sys.path.insert(0, "../films_db")
 import films_db
 import convert
+import search
 
 # Инициализация Flask
 app = Flask(__name__)
@@ -62,24 +63,25 @@ def main_page():
     ]
 
     if request.method == 'POST':
+        # Получение фильмов по жанру
         genre = request.form.get('genre')
-        film_list = [
-            films_db.get_data_film(i, cur) for i in range(50, 70)
-        ]
 
+        film_list = search.filter_by_genre(genre, 5, 0, cur)
+
+        print('\nFILM_LIST')
+        print(str(type(film_list)) + '\n')
+        print(film_list)
         # print(request)
         # print(request.form)
         # print(genre)
 
-        film_recommendations = [
-            films_db.get_data_film(i, cur) for i in range(100, 110)
-        ]
 
         return render_template('index.html', 
         film_recommendations=film_recommendations, 
         film_list = film_list, 
         genres = genres)
 
+    print(film_list)
     return render_template('index.html', 
         film_recommendations=film_recommendations, 
         film_list = film_list, 

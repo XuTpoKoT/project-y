@@ -18,7 +18,7 @@
                     <input type="text" placeholder="Поиск" class="input__header"/>
                     <ul class="input__menu">
 
-                        {% for elem in film_list %}
+                        {% for elem in film_recommendations %}
                         <li class="input__menu__item">
                             {{ elem.title }}
                         </li>
@@ -136,16 +136,25 @@
             </div>
             <div class="list" id="root">
 
+                {% if film_list %}
                 {% for film in film_list %}
                 <div class="list__item">
                     <div class="list__item__image">
-                        {{ film['imageUrl'] }}
+                        {{ film[0] }}
                     </div>
                     <div class="list__item__title">
-                        {{ film['title'] }}
+                        {{ film[1] }}
+                    </div>
+                    <div class="list__item__original-title">
+                        {{ film[2] }}
                     </div>
                 </div>
                 {% endfor %}
+                {% else %}
+                <div class="list__item__empty">
+                    Список фильмов пуст.
+                </div>
+                {% endif %}
 
             </div>
         </div>

@@ -93,8 +93,7 @@ for (let settingsForm of settingsForms) {
         let request = fetch('http://127.0.0.1:5000', { 
             method: "POST", 
             headers:{"content-type":"application/json"}
-        })
-                        .then(response => response.text())
+        }).then(response => response.text())
         console.log(request)
     });
 }
