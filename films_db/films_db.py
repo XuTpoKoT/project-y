@@ -231,7 +231,7 @@ def print_all_films():
     print()
 
 
-def get_data_film(film_id):
+def get_data_film(film_id, cur):
     data_film = {}
 
     # Информация о фильме
