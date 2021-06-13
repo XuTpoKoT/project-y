@@ -84,6 +84,7 @@ def filter_by_genre(genre, count, offset, cur):
     cur - объект курсора базы sqlite3
     """
 
+    # Получаем genre_id
     cur.execute("SELECT genre_id FROM genres WHERE genre = '{}'".format(genre))
     temp = cur.fetchone()
     if temp is None:
@@ -91,6 +92,7 @@ def filter_by_genre(genre, count, offset, cur):
     else:
         genre_id = temp[0]
 
+    # Получаем список фильмов
     cur.execute("SELECT film_id, title, original_title "
                 "FROM film_info NATURAL JOIN rating "
                 "WHERE film_id IN "
