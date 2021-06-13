@@ -97,3 +97,14 @@ for (let settingsForm of settingsForms) {
         console.log(request)
     });
 }
+
+//// Работа с карточками
+
+// const cardFilmList1 = document.querySelectorAll('.input__menu__item'),
+//       cardFilmList2 = document.querySelectorAll('.list__item');
+
+// for (let film of cardFilmList1) {
+//     film.addEventListener('click', e => {
+
+//     })
+// }

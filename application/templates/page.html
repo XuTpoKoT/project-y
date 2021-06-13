@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проект</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/font-awesome/css/font-awesome.min.css') }}">
+    <script defer src="{{ url_for('static', filename='scripts/script.js') }}"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="header__wrap">
+                <div class="header__logo"><a href="http://127.0.0.1:5000/">LOGOTYPE</a></div>
+                <div class="search">
+                    <input type="text" placeholder="Поиск" class="input__header"/>
+                    <ul class="input__menu">
+
+                        {% if film_list %}
+                        {% for film in film_list %}
+                        <div class="input__menu__item">
+                            <div class="input__menu__item__image">
+                                {{ film['image_url'] }}
+                            </div>
+                            <div class="input__menu__item__info">
+                                <div class="input__menu__item__title">
+                                    {{ film['title'] }}
+                                </div>
+                                <div class="input__menu__item__original-title">
+                                    {{ film['original_title'] }}
+                                </div>
+                                <div class="input__menu__item__country">
+                                    {{ film['country'] }} | {{ film['genres'] }}
+                                </div>
+                                <div class="input__menu__item__vote">
+                                    <span style="color: #1db224; font-weight: 400;">{{ film['imdb'] }}</span> | {{ film['imdb_count'] }}
+                                </div>
+                            </div>
+                            <div class="input__menu__item__rating">
+                                <span>{{ film['imdb'] }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="input__menu__item__empty">
+                            Список фильмов пуст.
+                        </div>
+                        {% endif %}
+
+                    </ul>
+                </div>
+            </div>
+            <div class="header__profile__wrap">
+                <div class="header__profile">
+                    <div class="header__profile__nickname">Иван</div>
+                    <div class="header__profile__icon"><img src="{{ url_for('static', filename='styles/icons/accountHeader.png') }}" alt=""></div>
+                    <div class="header__profile__arrow"><i class="fa fa-caret-down fa-1x menu-icon" aria-hidden="true"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="full__film__info">
+            <div class="full__film__info__image">
+                {{ qwd }}
+            </div>
+            <div class="full__film__info__title">
+                {{ film['title'] }}
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

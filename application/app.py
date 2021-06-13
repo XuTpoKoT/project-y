@@ -91,5 +91,14 @@ def main_page():
         film_list = film_list, 
         genres = genres)
 
+@app.route('/<id>')
+def film_page(id):
+    conn = sqlite3.connect("../films_db/database/films.sql")
+    cur = conn.cursor()
+
+    film = films_db.get_data_film(id, cur)
+
+    return render_template('page.html', 
+        film=film)
 if __name__ == '__main__':
     app.run(debug=True)

@@ -148,6 +148,7 @@
 
                 {% if film_list %}
                 {% for film in film_list %}
+                <a href="http://127.0.0.1:5000/331">
                 <div class="list__item">
                     <div class="list__item__image">
                         {{ film['image_url'] }}
@@ -170,6 +171,7 @@
                         <span>{{ film['imdb'] }}</span>
                     </div>
                 </div>
+                </a>
                 {% endfor %}
                 {% else %}
                 <div class="list__item__empty">
