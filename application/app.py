@@ -15,7 +15,7 @@ app = Flask(__name__)
 # Роут основной страницы
 @app.route('/', methods=['GET', 'POST'])
 def main_page():
-    conn = sqlite3.connect("../films_db/films.sql")
+    conn = sqlite3.connect("../films_db/database/films.sql")
     cur = conn.cursor()
 
     # Жанры
