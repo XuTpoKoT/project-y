@@ -74,5 +74,33 @@ def find(string, cur):
     return {"films": films, "actors": actors, "directors": directors}
 
 
+def filter_by_genre(genre, count, offset, cur):
+    """
+    Возвращает список фильмов заданного жанра отсортированный по возрастанию рейтинга
+
+    genre - название жанра из таблицы с жанрами
+    count - количество фильмао для возврата
+    offset - смещение поиска
+    cur - объект курсора базы sqlite3
+    """
+
+    cur.execute("SELECT genre_id FROM genres WHERE genre = '{}'".format(genre))
+    temp = cur.fetchone()
+    if temp is None:
+        return None
+    else:
+        genre_id = temp[0]
+
+    cur.execute("SELECT film_id, title, original_title "
+                "FROM film_info NATURAL JOIN rating "
+                "WHERE film_id IN "
+                "(SELECT film_id FROM genres_films WHERE genre_id = {0}) "
+                "ORDER BY kinopoisk DESC "
+                "LIMIT {1}, {2}".format(genre_id, offset, count))
+    result = cur.fetchall()
+
+    return result
+
+
 if __name__ == "__main__":
     pass
