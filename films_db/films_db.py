@@ -303,6 +303,12 @@ def get_data_film(film_id, cur):
 
     return data_film
 
+def get_genres():
+    cur.execute("SELECT name "
+                "FROM genre")
+    result = [x[0] for x in cur.fetchall()]
+    return  result
+
 
 if __name__ == "__main__":
     init()
