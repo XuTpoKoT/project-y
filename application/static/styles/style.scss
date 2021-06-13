@@ -132,12 +132,45 @@ $infoHeight: 70px;
             @include NeuForMainBlocks();
             &__item {
                 display: flex;
-                height: 145px;
+                height: 100px;
                 @include NeuForMainBlocks();
-                margin-bottom: 15px;
+                margin-bottom: 25px;
+                &__info {
+                    margin: 10px;
+                }
+                &__title {
+                    font-size: 12px;
+                    font-weight: 500;
+                }
+                &__original-title {
+                    font-size: 11px;
+                    font-weight: 300;
+                    margin-top: 10px;
+                }
+                &__country {
+                    font-size: 11px;
+                    font-weight: 300;
+                    margin-top: 10px;
+                }
+                &__vote {
+                    font-size: 12px;
+                    font-weight: 300;
+                    margin-top: 9px;
+                }
+                &__rating {
+                    margin: 0 15px 0 auto;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: #1db224;
+                    width: 50px;
+                    span {color: white;}
+                    font-weight: 500;
+                    font-size: 16px;
+                }
                 &__image {
                     border-radius: 13px 0 0 13px;
-                    width: 100px;
+                    width: 70px;
                     background-color: aqua;
                 }
             }
@@ -305,7 +338,7 @@ $infoHeight: 70px;
             }
             &__vote {
                 font-size: 15px;
-                font-weight: 500;
+                font-weight: 300;
                 margin-top: 12px;
             }
             &__rating {

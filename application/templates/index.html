@@ -18,11 +18,36 @@
                     <input type="text" placeholder="Поиск" class="input__header"/>
                     <ul class="input__menu">
 
-                        {% for elem in film_recommendations %}
-                        <li class="input__menu__item">
-                            {{ elem['title'] }}
-                        </li>
+                        {% if film_list %}
+                        {% for film in film_list %}
+                        <div class="input__menu__item">
+                            <div class="input__menu__item__image">
+                                {{ film['image_url'] }}
+                            </div>
+                            <div class="input__menu__item__info">
+                                <div class="input__menu__item__title">
+                                    {{ film['title'] }}
+                                </div>
+                                <div class="input__menu__item__original-title">
+                                    {{ film['original_title'] }}
+                                </div>
+                                <div class="input__menu__item__country">
+                                    {{ film['country'] }} | {{ film['genres'] }}
+                                </div>
+                                <div class="input__menu__item__vote">
+                                    <span style="color: #1db224; font-weight: 400;">{{ film['imdb'] }}</span> | {{ film['imdb_count'] }}
+                                </div>
+                            </div>
+                            <div class="input__menu__item__rating">
+                                <span>{{ film['imdb'] }}</span>
+                            </div>
+                        </div>
                         {% endfor %}
+                        {% else %}
+                        <div class="input__menu__item__empty">
+                            Список фильмов пуст.
+                        </div>
+                        {% endif %}
 
                     </ul>
                 </div>
@@ -107,9 +132,9 @@
                     <div class="types">
                         
                         <form class='settings__form' method="post">
-                            <label for="genre">Genre</label>
+                            <label for="genre"></label>
                             <input type="genre" name='genre'>
-                            <button>Отправить</button>
+                            <button class=''>Отправить</button>
                         </form>
                     </div>          
                     <div class="settings__extended-button">
@@ -138,7 +163,7 @@
                             {{ film['country'] }} | {{ film['genres'] }}
                         </div>
                         <div class="list__item__vote">
-                            <span style="color: #1db224;">{{ film['imdb'] }}</span> | {{ film['imdb_count'] }}
+                            <span style="color: #1db224; font-weight: 400;">{{ film['imdb'] }}</span> | {{ film['imdb_count'] }}
                         </div>
                     </div>
                     <div class="list__item__rating">
