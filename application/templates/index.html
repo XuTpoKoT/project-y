@@ -57,7 +57,7 @@
                             </div>             
                         </div>
                         <div class="slider__item__rating">
-                            {{ film['rating'] }}  
+                            {{ film['imdb'] }}  
                         </div>
                     </div>
                     {% endfor %}   
@@ -106,21 +106,6 @@
                     </div>
                     <div class="types">
                         
-                        <!-- <form class='settings__form'>
-                            <button class="types__item" name="films">
-                                Фильмы
-                            </button>
-                        </form>
-                        <form class='settings__form'>
-                            <button class="types__item" name="films">
-                                Сериалы
-                            </button>
-                        </form>
-                        <button class="types__item">Фильмы</button>
-                        <button class="types__item">Сериалы</button>
-                        <button class="types__item">Российские</button>
-                        <button class="types__item">Зарубежные</button>
-                        <button class="types__item">С высоким рейтингом</button> -->
                         <form class='settings__form' method="post">
                             <label for="genre">Genre</label>
                             <input type="genre" name='genre'>
@@ -142,11 +127,22 @@
                     <div class="list__item__image">
                         {{ film['image_url'] }}
                     </div>
-                    <div class="list__item__title">
-                        {{ film['title'] }}
+                    <div class="list__item__info">
+                        <div class="list__item__title">
+                            {{ film['title'] }}
+                        </div>
+                        <div class="list__item__original-title">
+                            {{ film['original_title'] }}
+                        </div>
+                        <div class="list__item__country">
+                            {{ film['country'] }} | {{ film['genres'] }}
+                        </div>
+                        <div class="list__item__vote">
+                            <span style="color: #1db224;">{{ film['imdb'] }}</span> | {{ film['imdb_count'] }}
+                        </div>
                     </div>
-                    <div class="list__item__original-title">
-                        {{ film['original_title'] }}
+                    <div class="list__item__rating">
+                        <span>{{ film['imdb'] }}</span>
                     </div>
                 </div>
                 {% endfor %}

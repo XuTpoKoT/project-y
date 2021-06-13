@@ -61,6 +61,8 @@ def main_page():
     film_list = [
         films_db.get_data_film(i, cur) for i in range(1, 11)
     ]
+    for i in range(len(film_list)):
+        film_list[i]['genres'] = film_list[i]['genres'].split(', ')[0]
 
     if request.method == 'POST':
         # Получение фильмов по жанру
@@ -68,14 +70,13 @@ def main_page():
 
         film_list = search.filter_by_genre(genre, 30, 0, cur)
 
+        for i in range(len(film_list)):
+            film_list[i]['genres'] = film_list[i]['genres'].split(', ')[0]
+        
         print('GENRE :'+ str(genre))
         print('\nFILM_LIST')
         print(str(type(film_list)) + '\n')
         print(film_list)
-        # print(request)
-        # print(request.form)
-        # print(genre)
-
 
         return render_template('index.html', 
         film_recommendations=film_recommendations, 

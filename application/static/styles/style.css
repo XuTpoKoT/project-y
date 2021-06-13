@@ -406,6 +406,54 @@
   margin-bottom: 25px;
 }
 
+.movies .list__item__info {
+  margin: 20px;
+}
+
+.movies .list__item__title {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.movies .list__item__original-title {
+  font-size: 12px;
+  font-weight: 300;
+  margin-top: 10px;
+}
+
+.movies .list__item__country {
+  font-size: 12px;
+  font-weight: 300;
+  margin-top: 10px;
+}
+
+.movies .list__item__vote {
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 12px;
+}
+
+.movies .list__item__rating {
+  margin: 0 15px 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #1db224;
+  width: 100px;
+  font-weight: 500;
+  font-size: 32px;
+}
+
+.movies .list__item__rating span {
+  color: white;
+}
+
 .movies .list__item__image {
   border-radius: 13px 0 0 13px;
   width: 100px;

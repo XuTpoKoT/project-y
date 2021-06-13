@@ -286,7 +286,39 @@ $infoHeight: 70px;
             height: 145px;
             @include NeuForMainBlocks();
             margin-bottom: 25px;
-
+            &__info {
+                margin: 20px;
+            }
+            &__title {
+                font-size: 24px;
+                font-weight: 400;
+            }
+            &__original-title {
+                font-size: 12px;
+                font-weight: 300;
+                margin-top: 10px;
+            }
+            &__country {
+                font-size: 12px;
+                font-weight: 300;
+                margin-top: 10px;
+            }
+            &__vote {
+                font-size: 15px;
+                font-weight: 500;
+                margin-top: 12px;
+            }
+            &__rating {
+                margin: 0 15px 0 auto;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #1db224;
+                width: 100px;
+                span {color: white;}
+                font-weight: 500;
+                font-size: 32px;
+            }
             &__image {
                 border-radius: 13px 0 0 13px;
                 width: 100px;
