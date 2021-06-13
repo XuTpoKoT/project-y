@@ -1,68 +1,78 @@
-from films_db import conn, cur
-
-
-def find(string):
+def find(string, cur):
     """
-    Возвращает
-    :return:
+    Возвращает результат поиск по подстроке в базе с фильмами
+
+    string - строка, по которой выполняется поиск
+    cur - объект курсора sqlite3
     """
 
-    if len(string) < 2:
-        return None
-
-    # Выход будет разбит на 3 части: фильмы, актеры, режиссеры
-
+    string = string.capitalize()
     # Выполняем поиск фильмов
-    # Полное совпадения
-    cur.execute("SELECT film_id, title, original_title FROM film_info WHERE title = ? OR original_title = ?",
-                (string, string))
-    complete_match = cur.fetchall()
-
     # Начинается с string
-    cur.execute("SELECT film_id, title, original_title"
-                "FROM film_info NATURAL JOIN rating"
-                "WHERE title LIKE '{0}%' OR original_title LIKE '{0}%'"
-                "ORDER BY kinopoisk DESC".format(string))
-    start_with = cur.fetchall()
+    cur.execute("SELECT film_id, title, original_title "
+                "FROM film_info NATURAL JOIN rating "
+                "WHERE title LIKE '{0}%' OR original_title LIKE '{0}%' "
+                "ORDER BY kinopoisk DESC "
+                "LIMIT 3".format(string))
+    films_start_with = cur.fetchall()
 
-    # В составе какого слова
-    cur.execute("SELECT film_id, title, original_title"
-                "FROM film_info NATURAL JOIN rating"
-                "WHERE title LIKE '%{0}%' OR original_title LIKE '%{0}%'"
-                "ORDER BY kinopoisk DESC".format(string))
-    contained_in = cur.fetchall()
+    films = films_start_with.copy()
+    if len(films) < 3:
+        # В составе какого-то слова
+        cur.execute("SELECT film_id, title, original_title "
+                    "FROM film_info NATURAL JOIN rating "
+                    "WHERE title LIKE '_%{0}%' OR original_title LIKE '_%{0}%' "
+                    "ORDER BY kinopoisk DESC "
+                    "LIMIT 3 ".format(string))
+        films_contained_in = cur.fetchall()
 
-    films = complete_match.copy()
+        while len(films) < 3 and len(films_contained_in) > 0:
+            films.append(films_contained_in.pop())
 
-    for row in start_with + contained_in:
-        if row not in films:
-            films.append(row)
+    string = string.lower()
 
     # Выполняем поиск актеров
-    # Полное совпадения
-    cur.execute("SELECT actor_id, output_name"
-                "FROM actors"
-                "WHERE search_name = ?", (string,))
-    complete_match = cur.fetchall()
-
     # Начинается с string
-    cur.execute("SELECT actor_id"
-                "FROM film_info NATURAL JOIN rating"
-                "WHERE title LIKE '{0}%' OR original_title LIKE '{0}%'"
-                "ORDER BY kinopoisk DESC".format(string))
-    start_with = cur.fetchall()
+    cur.execute("SELECT actor_id, output_name "
+                "FROM actors "
+                "WHERE search_name LIKE '{0}%' "
+                "LIMIT 3".format(string))
+    actors_start_with = cur.fetchall()
 
-    # В составе какого слова
-    cur.execute("SELECT actor_id, output_name FROM actors WHERE search_name LIKE '%{0}%'".format(string))
-    contained_in = cur.fetchall()
+    actors = actors_start_with.copy()
+    if len(actors) < 3:
+        # В составе какого-то слова
+        cur.execute("SELECT actor_id, output_name "
+                    "FROM actors "
+                    "WHERE search_name LIKE '_%{0}%' "
+                    "LIMIT 3".format(string))
+        actors_contained_in = cur.fetchall()
 
-    actors = complete_match.copy()
+        while len(actors) < 3 and len(actors_contained_in) > 0:
+            actors.append(actors_contained_in.pop())
 
-    for row in start_with + contained_in:
-        if row not in actors:
-            actors.append(row)
-    return {"films": films, "actors": actors}
+    # Выполняем поиск режиссеров
+    # Начинается с string
+    cur.execute("SELECT director_id, output_name "
+                "FROM directors "
+                "WHERE search_name LIKE '{0}%' "
+                "LIMIT 3".format(string))
+    directors_start_with = cur.fetchall()
+
+    directors = directors_start_with.copy()
+    if len(directors) < 3:
+        # В составе какого-то слова
+        cur.execute("SELECT director_id, output_name "
+                    "FROM directors "
+                    "WHERE search_name LIKE '_%{0}%' "
+                    "LIMIT 3".format(string))
+        directors_contained_in = cur.fetchall()
+
+        while len(directors) < 3 and len(directors_contained_in) > 0:
+            directors.append(directors_contained_in.pop())
+
+    return {"films": films, "actors": actors, "directors": directors}
 
 
 if __name__ == "__main__":
-    find("даг")
+    pass
