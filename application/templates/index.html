@@ -20,7 +20,7 @@
 
                         {% for elem in film_recommendations %}
                         <li class="input__menu__item">
-                            {{ elem.title }}
+                            {{ elem['title'] }}
                         </li>
                         {% endfor %}
 
@@ -140,13 +140,13 @@
                 {% for film in film_list %}
                 <div class="list__item">
                     <div class="list__item__image">
-                        {{ film[0] }}
+                        {{ film['image_url'] }}
                     </div>
                     <div class="list__item__title">
-                        {{ film[1] }}
+                        {{ film['title'] }}
                     </div>
                     <div class="list__item__original-title">
-                        {{ film[2] }}
+                        {{ film['original_title'] }}
                     </div>
                 </div>
                 {% endfor %}
@@ -159,7 +159,7 @@
             </div>
         </div>
     </div>
-    <div class="modal">
+    <div class="modal inactive">
         <div class="modal__window">
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit unde consequatur quisquam voluptates tempore, non eius consequuntur mollitia aspernatur recusandae sint beatae harum officiis dolorum ipsum possimus natus delectus magni.
             <button class="modal__close-button">Закрыть</button>

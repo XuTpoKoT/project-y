@@ -66,8 +66,9 @@ def main_page():
         # Получение фильмов по жанру
         genre = request.form.get('genre')
 
-        film_list = search.filter_by_genre(genre, 5, 0, cur)
+        film_list = search.filter_by_genre(genre, 30, 0, cur)
 
+        print('GENRE :'+ str(genre))
         print('\nFILM_LIST')
         print(str(type(film_list)) + '\n')
         print(film_list)

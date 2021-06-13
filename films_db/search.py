@@ -1,3 +1,6 @@
+from films_db import get_data_film
+
+
 def find(string, cur):
     """
     Возвращает результат поиск по подстроке в базе с фильмами
@@ -93,13 +96,16 @@ def filter_by_genre(genre, count, offset, cur):
         genre_id = temp[0]
 
     # Получаем список фильмов
-    cur.execute("SELECT film_id, title, original_title "
+    cur.execute("SELECT film_id "
                 "FROM film_info NATURAL JOIN rating "
                 "WHERE film_id IN "
                 "(SELECT film_id FROM genres_films WHERE genre_id = {0}) "
                 "ORDER BY kinopoisk DESC "
                 "LIMIT {1}, {2}".format(genre_id, offset, count))
-    result = cur.fetchall()
+    result = []
+    for x in cur.fetchall():
+        film_id = x[0]
+        result.append(get_data_film(film_id, cur))
 
     return result
 
