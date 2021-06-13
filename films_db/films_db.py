@@ -78,7 +78,6 @@ def init():
         FOREIGN KEY (film_id) REFERENCES film_info(film_id))
     """)
 
-    # url же TEXT?
     cur.execute("""CREATE TABLE IF NOT EXISTS images_films(
         film_id INTEGER, 
         img_path TEXT,
@@ -232,7 +231,7 @@ def print_all_films():
 
 
 def get_data_film(film_id, cur):
-    data_film = {}
+    data_film = {"film_id": film_id}
 
     # Информация о фильме
     cur.execute("SELECT * "
@@ -301,7 +300,20 @@ def get_data_film(film_id, cur):
 
     data_film.update(convert.from_rating(rating))
 
+    cur.execute("SELECT img_path "
+                "FROM images_films "
+                "WHERE film_id = ?", (film_id,))
+
+    data_film["img_path"] = cur.fetchone()[0]
+
     return data_film
+
+
+def get_genres():
+    cur.execute("SELECT name "
+                "FROM genre")
+    result = [x[0] for x in cur.fetchall()]
+    return result
 
 
 if __name__ == "__main__":

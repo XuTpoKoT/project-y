@@ -6,8 +6,14 @@ const inputMenu = document.querySelector('.input__menu'),
 inputHeader.addEventListener('focus', () => {
     inputMenu.classList.add('input__menu_active')
 })
-inputHeader.addEventListener('blur', () => {
+inputHeader.addEventListener('click', () => {
+    inputMenu.classList.add('input__menu_active')
+})
+inputMenu.addEventListener('mouseout', () => {
     inputMenu.classList.remove('input__menu_active')
+})
+inputMenu.addEventListener('mouseover', () => {
+    inputMenu.classList.add('input__menu_active')
 })
 
 //// Выпадающее меню жанров

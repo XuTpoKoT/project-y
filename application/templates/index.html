@@ -20,9 +20,10 @@
 
                         {% if film_list %}
                         {% for film in film_list %}
+                        <a href="http://127.0.0.1:5000/{{ film['film_id'] }}">
                         <div class="input__menu__item">
                             <div class="input__menu__item__image">
-                                {{ film['image_url'] }}
+                                <img src="{{ film['img_path'] }}" alt="">
                             </div>
                             <div class="input__menu__item__info">
                                 <div class="input__menu__item__title">
@@ -42,6 +43,7 @@
                                 <span>{{ film['imdb'] }}</span>
                             </div>
                         </div>
+                        </a>
                         {% endfor %}
                         {% else %}
                         <div class="input__menu__item__empty">
@@ -73,6 +75,9 @@
                     {% else %}
                     <div class="slider__item">                         
                     {% endif %}
+                        <div class="slider__item__image">
+                            <img src="{{ film['img_path'] }}" alt="">
+                        </div>
                         <div class="slider__item__info">
                             <div class="slider__item__info__title">
                                 {{ film['title'] }}
@@ -148,10 +153,10 @@
 
                 {% if film_list %}
                 {% for film in film_list %}
-                <a href="http://127.0.0.1:5000/331">
+                <a href="http://127.0.0.1:5000/{{ film['film_id'] }}">
                 <div class="list__item">
                     <div class="list__item__image">
-                        {{ film['image_url'] }}
+                        <img src="{{ film['img_path'] }}" alt="">
                     </div>
                     <div class="list__item__info">
                         <div class="list__item__title">

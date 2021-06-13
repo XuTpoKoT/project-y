@@ -54,8 +54,11 @@ def main_page():
     film_recommendations = [
         films_db.get_data_film(i, cur) for i in range(12, 22)
     ]
-    for i in range(len(film_recommendations)):
-        film_recommendations[i]['genres'] = film_recommendations[i]['genres'].split(', ')[0]
+    if film_recommendations:
+        for i in range(len(film_recommendations)):
+            film_recommendations[i]['genres'] = film_recommendations[i]['genres'].split(', ')[0]
+        for i in range(len(film_recommendations)):
+            film_recommendations[i]['img_path'] = url_for('static', filename=film_recommendations[i]['img_path'])
 
     # Работа с листом фильмов
     film_list = [
@@ -64,6 +67,8 @@ def main_page():
     if film_list:
         for i in range(len(film_list)):
             film_list[i]['genres'] = film_list[i]['genres'].split(', ')[0]
+        for i in range(len(film_list)):
+            film_list[i]['img_path'] = url_for('static', filename=film_list[i]['img_path'])
 
     if request.method == 'POST' and not request.form.get('text'):
         # Получение фильмов по жанру (отдел настроек)
@@ -74,11 +79,13 @@ def main_page():
         if film_list:
             for i in range(len(film_list)):
                 film_list[i]['genres'] = film_list[i]['genres'].split(', ')[0]
+            for i in range(len(film_list)):
+                film_list[i]['img_path'] = url_for('static', filename=film_list[i]['img_path'])
         
-        print('GENRE :'+ str(genre))
-        print('\nFILM_LIST')
-        print(str(type(film_list)) + '\n')
-        print(film_list)
+        # print('GENRE :'+ str(genre))
+        # print('\nFILM_LIST')
+        # print(str(type(film_list)) + '\n')
+        # print(film_list)
 
         return render_template('index.html', 
         film_recommendations=film_recommendations, 
