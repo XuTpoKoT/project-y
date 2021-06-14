@@ -45,7 +45,7 @@ def parsingFilm(id):
 
         response_film = getResponseFilm(link_film, TIMEOUT)
         if response_film is None:
-            print("Err: no internet connection.")
+            print("\033[31mErr:\033[37m no internet connection.")
             continue
 
         soup_film = BeautifulSoup(response_film.text, "lxml")
@@ -54,14 +54,14 @@ def parsingFilm(id):
         if title is not None:
             data_film["title"] = title
         else:
-            print("Err: the movie didn't load.")
+            print("\033[31mErr:\033[37m the movie didn't load.")
             continue
 
         original_title = getOriginalTitleFilm(soup_film)
         if original_title is not None:
             data_film["original_title"] = original_title
         else:
-            print("War: no original title.")
+            print("\033[33mWar:\033[37m no original title.")
 
         encyclopedic_data = getEncyclopedicDataFilm(soup_film)
         if encyclopedic_data is not None:
@@ -69,7 +69,7 @@ def parsingFilm(id):
                 if encyclopedic_data[key] is not None:
                     data_film[key] = encyclopedic_data[key]
         else:
-            print("War: no encyclopedic.")
+            print("\033[33mWar:\033[37m no encyclopedic.")
 
         if "сезон" in data_film["year"]:
             data_film["type"] = "0"
@@ -78,34 +78,34 @@ def parsingFilm(id):
         if actors is not None:
             data_film["actors"] = actors
         else:
-            print("War: no actors.")
+            print("\033[33mWar:\033[37m no actors.")
 
         description = getDescriptionFilm(soup_film)
         if description is not None:
             data_film["description"] = description
         else:
-            print("War: no description.")
+            print("\033[33mWar:\033[37m no description.")
 
         image, image_url = getImageFilm(soup_film, data_film["id"])
         if image is not None:
             data_film["image"] = image
             data_film["image_url"] = image_url
         else:
-            print("War: no image or not found folder img-data.")
+            print("\033[33mWar:\033[37m no image or not found folder img-data.")
 
         rating, count = getRatingFilm(soup_film)
         if rating is not None:
             data_film["rating"] = rating
             data_film["count"] = count
         else:
-            print("War: no rating.")
+            print("\033[33mWar:\033[37m no rating.")
 
         rating_imdb, count_imdb = getRatingImdbFilm(soup_film)
         if rating_imdb is not None:
             data_film["rating_imdb"] = rating_imdb
             data_film["count_imdb"] = count_imdb
         else:
-            print("War: no imdb rating.")
+            print("\033[33mWar:\033[37m no imdb rating.")
 
         return data_film
 

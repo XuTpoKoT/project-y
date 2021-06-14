@@ -22,22 +22,22 @@ def parsingTable(page):
 
         response_table = getResponseTable(link_table, TIMEOUT)
         if response_table is None:
-            print("Err: no internet connection.")
+            print("\033[31mErr:\033[37m no internet connection.")
             continue
 
         soup_table = BeautifulSoup(response_table.text, "lxml")
 
         films = getFilms(soup_table)
         if films is None:
-            print("Err: error in parsing the page.")
+            print("\033[31mErr:\033[37m error in parsing the page.")
             continue
 
         len_films = len(films)
         if len_films == 0:
-            print("Err: the page didn't load.")
+            print("\033[31mErr:\033[37m the page didn't load.")
             continue
 
-        print(f"on page {page} uploaded {len_films} films.")
+        print(f"\033[32mInf:\033[37m on page {page} uploaded {len_films} films.")
         ids_films, values_films = filmsHandler(films)
 
         return len_films, ids_films, values_films

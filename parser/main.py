@@ -28,5 +28,5 @@ if __name__ == "__main__":
             if values_films[j] != "-":
                 data = parsingFilm(ids_films[j])
 
-                print(data)
+                print("\033[32mInf:\033[37m [{}/50] film '{}' added in data base".format(j+1, data["title"]))
                 films_db.insert_film(data)
