@@ -132,7 +132,7 @@ def main_page():
         genres = genres,
         film_menu = [])
 
-@app.route('/films/<id>')
+@app.route('/<id>')
 def film_page(id):
     conn = sqlite3.connect("../database/films.sql")
     cur = conn.cursor()
