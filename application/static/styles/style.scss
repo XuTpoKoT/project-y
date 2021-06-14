@@ -144,7 +144,8 @@ $infoHeight: 70px;
                 display: flex;
                 height: 100px;
                 @include NeuForMainBlocks();
-                margin-bottom: 25px;
+                margin-top: 12px;
+                margin-bottom: 12px;
                 &__info {
                     margin: 10px;
                 }

@@ -90,8 +90,23 @@ def main_page():
         # Получение фильмов по жанру (отдел настроек)
         substr = request.form.get('substr')
         response = search.find(substr, cur)
-        print(response)
-        film_menu = response['films']
+
+
+        film_menu = []
+        film_menu.append([films_db.get_data_film(film[0], cur) for film in response['films']])
+        validate_client_data(film_menu[0])
+
+        film_menu.append([films_db.get_data_film(film[0], cur) for film in response['films']])
+        validate_client_data(film_menu[1])
+
+        film_menu.append([films_db.get_data_film(film[0], cur) for film in response['films']])
+        validate_client_data(film_menu[2])
+
+        # film_menu.append([films_db.get_data_film(film[0], cur) for film in response['actors']])
+        # validate_client_data(film_menu[1])
+
+        # film_menu.append([films_db.get_data_film(film[0], cur) for film in response['directors']])
+        # validate_client_data(film_menu[2])
 
         return render_template('index.html', 
             film_recommendations=film_recommendations, 

@@ -165,7 +165,8 @@ img {
   background: #f9fafa;
   -webkit-box-shadow: 4px 4px 4px #e0e1e1, -4px -4px 4px #ffffff;
           box-shadow: 4px 4px 4px #e0e1e1, -4px -4px 4px #ffffff;
-  margin-bottom: 25px;
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 
 .header .search .input__menu__item__info {

@@ -17,37 +17,41 @@
                 <div class="search">
                     <form class='header__form' method="post">
                         <label for="substr"></label>
-                        <input class="input__header" type="substr" name="substr" placeholder="Поиск" />   
+                        <input class="input__header" type="substr" name="substr" placeholder="Поиск" autocomplete="off"/>   
                     </form>
                     <ul class="input__menu">
 
                         {% if film_menu %}
-                        {% for film in film_menu %}
-                        <a href="http://127.0.0.1:5000/{{ film['film_id'] }}">
-                        <div class="input__menu__item">
-                            <div class="input__menu__item__image">
-                                <img src="{{ film['img_path'] }}" alt="">
-                            </div>
-                            <div class="input__menu__item__info">
-                                <div class="input__menu__item__title">
-                                    {{ film['title'] }}
+                            {% for category in film_menu %}
+                                {% for film in category %}
+                                <a href="http://127.0.0.1:5000/{{ film['film_id'] }}">
+                                <div class="input__menu__item">
+                                    <div class="input__menu__item__image">
+                                        <img src="{{ film['img_path'] }}" alt="">
+                                    </div>
+                                    <div class="input__menu__item__info">
+                                        <div class="input__menu__item__title">
+                                            {{ film['title'] }}
+                                        </div>
+                                        <div class="input__menu__item__original-title">
+                                            {{ film['original_title'] }}
+                                        </div>
+                                        <div class="input__menu__item__country">
+                                            {{ film['country'] }} | {{ film['genres'] }}
+                                        </div>
+                                        <div class="input__menu__item__vote">
+                                            <span style="color: #1db224; font-weight: 400;">{{ film['imdb'] }}</span> | {{ film['imdb_count'] }}
+                                        </div>
+                                    </div>
+                                    <div class="input__menu__item__rating">
+                                        <span>{{ film['imdb'] }}</span>
+                                    </div>
                                 </div>
-                                <div class="input__menu__item__original-title">
-                                    {{ film['original_title'] }}
-                                </div>
-                                <div class="input__menu__item__country">
-                                    {{ film['country'] }} | {{ film['genres'] }}
-                                </div>
-                                <div class="input__menu__item__vote">
-                                    <span style="color: #1db224; font-weight: 400;">{{ film['imdb'] }}</span> | {{ film['imdb_count'] }}
-                                </div>
-                            </div>
-                            <div class="input__menu__item__rating">
-                                <span>{{ film['imdb'] }}</span>
-                            </div>
-                        </div>
-                        </a>
-                        {% endfor %}
+                                </a>
+                                {% endfor %}
+                                <hr />
+                                <hr />
+                            {% endfor %}
                         {% else %}
                         <div class="input__menu__item__empty">
                             Список фильмов пуст.
@@ -142,7 +146,7 @@
                         
                         <form class='settings__form' method="post">
                             <label for="genre"></label>
-                            <input class="settings__form__genre" type="genre" name='genre' required placeholder="Введите жанр...">
+                            <input class="settings__form__genre" autocomplete="off" type="genre" name='genre' required placeholder="Введите жанр...">
                             <button class=''>Отправить</button>
                         </form>
                     </div>          
