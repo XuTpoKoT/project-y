@@ -11,6 +11,17 @@ def count2int(count):
     return int(float(count[:pos]) * 1000)
 
 
+def int2count(number):
+    if number is None:
+        return None
+    result = ""
+    while number % 1000 == 0:
+        result += "K"
+        number //= 1000
+    result = str(number) + result
+    return result
+
+
 def value2str(text):
     if text is None:
         text = "—"
@@ -88,4 +99,17 @@ def from_rating(rating):
               "kinopoisk_count": value2str(rating[1]),
               "imdb": value2str(rating[2]),
               "imdb_count": value2str(rating[3])}
+    return result
+
+def from_genres(cur):
+    cur.execute("SELECT name "
+                "FROM genre")
+    result = [x[0] for x in cur.fetchall()]
+    return result
+
+
+def from_countries(cur):
+    cur.execute("SELECT country"
+                "FROM countries")
+    result = [x[0] for x in cur.fetchall()]
     return result
