@@ -70,11 +70,10 @@ const settingsForms = document.querySelectorAll('.settings__form');
 
 for (let settingsForm of settingsForms) {
     settingsForm.addEventListener('submit', e => {
-        let request = fetch('http://127.0.0.1:5000', { 
+        let request = fetch('/', { 
             method: "POST", 
             headers:{"content-type":"application/json"}
         }).then(response => response.text())
-        console.log(request)
     });
 }
 
