@@ -85,12 +85,6 @@ profile.addEventListener('click', () => {
     profileMenu.classList.toggle('header__profile__menu_active');
 })
 
-//// Функционал кнопок жанров
-// const settingsTypes = document.querySelector('.types'),
-//       settingsButtons = settingsTypes.querySelectorAll('.types__item'),
-//       firstRow = [settingsButtons[0], settingsButtons[1]],
-//       secondRow = [settingsButtons[2], settingsButtons[3]];
-
 //// Работа с кнопками настроек
 const settingsForms = document.querySelectorAll('.settings__form');
 
@@ -104,13 +98,15 @@ for (let settingsForm of settingsForms) {
     });
 }
 
-//// Работа с карточками
-
-// const cardFilmList1 = document.querySelectorAll('.input__menu__item'),
-//       cardFilmList2 = document.querySelectorAll('.list__item');
-
-// for (let film of cardFilmList1) {
-//     film.addEventListener('click', e => {
-
-//     })
-// }
+//// Работа с кнопками настроек жангров
+const genreList = document.querySelectorAll('li.menu__list__item'),
+      inputGenreSettings = document.querySelector('form.settings__form').querySelector('input');
+let genre;
+for (let genreLi of genreList) {
+    genreLi.addEventListener('click', e => {
+        genre = e.target.innerHTML;
+        genre = genre.toLowerCase();
+        inputGenreSettings.value = genre;
+        genreMenuList.classList.toggle('menu__list_active');
+    })
+}

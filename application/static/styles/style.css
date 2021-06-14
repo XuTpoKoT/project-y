@@ -717,6 +717,7 @@ img {
 }
 
 .sidebar .settings .menu__list__item {
+  cursor: pointer;
   padding: 6px 16px 6px 16px;
   text-align: left;
   font-weight: 400;
