@@ -111,7 +111,7 @@ def main_page():
     film_recommendations = search.get_recommendations(20, cur)
     validate_client_data_in_recomm(film_recommendations)
     # Работа с листом фильмов 
-    film_list = search.get_recommendations(40, cur)
+    film_list = search.multi_filter({}, 40, 0, cur)
     validate_client_data_in_list(film_list)
 
     print(request.form.get('substr'))
