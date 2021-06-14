@@ -67,7 +67,11 @@
             <div class="wrap1">
                 <div class="wrap2">
                     <div class="full__film__info__image">
+                        {% if film['img_path'] != None %}
                         <img src="/static/{{ film['img_path'] }}" alt="">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='img-data/empty.png') }}" alt="">
+                        {% endif %}
                     </div>
                     <div class="full__film__info__about">
                         <div class="full__film__info__all">

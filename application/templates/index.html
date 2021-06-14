@@ -145,6 +145,7 @@
 
                             <label for="year"></label>
                             <input id='year' class="settings__form__key" autocomplete="off" type="year" name='year' placeholder="Введите год...">
+                            
                             <button class=''>Отправить</button>
                         </form>
                     </div>          
@@ -157,7 +158,11 @@
                 <a href="/{{ film['film_id'] }}">
                 <div class="list__item">
                     <div class="list__item__image">
+                        {% if film['img_path'] != "/static/-" %}
                         <img src="{{ film['img_path'] }}" alt="">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='img-data/empty.png') }}" alt="">
+                        {% endif %}
                     </div>
                     <div class="list__item__info">
                         <div class="list__item__title">
