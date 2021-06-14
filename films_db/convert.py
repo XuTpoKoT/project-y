@@ -1,3 +1,5 @@
+EMPTY_SYMBOL = "—"
+
 def count2int(count):
     if count is None:
         return None
@@ -18,13 +20,16 @@ def int2count(number):
     while number % 1000 == 0:
         result += "K"
         number //= 1000
-    result = str(number) + result
+    number = str(number)
+    if len(number) > 3:
+        number = number[:-3] + " " + number[-3:]
+    result = number + result
     return result
 
 
 def value2str(text):
     if text is None:
-        text = "—"
+        text = EMPTY_SYMBOL
     return text
 
 
@@ -98,9 +103,9 @@ def from_rating(rating):
         return None
 
     result = {"kinopoisk": value2str(rating[0]),
-              "kinopoisk_count": int2count(rating[1]),
+              "kinopoisk_count": value2str(int2count(rating[1])),
               "imdb": value2str(rating[2]),
-              "imdb_count": int2count(rating[3])}
+              "imdb_count": value2str(int2count(rating[3]))}
     return result
 
 
@@ -109,7 +114,7 @@ def from_genres(genres):
         return None
 
     if len(genres) == 0:
-        genres = "—"
+        genres = EMPTY_SYMBOL
     else:
         genres = ', '.join([genre for (genre,) in genres])
     return genres
@@ -120,7 +125,7 @@ def from_actors(actors):
         return None
 
     if len(actors) == 0:
-        actors = "—"
+        actors = EMPTY_SYMBOL
     else:
         actors = ', '.join([actor for (actor,) in actors])
     return actors
@@ -131,7 +136,7 @@ def from_directors(directors):
         return None
 
     if len(directors) == 0:
-        directors = "—"
+        directors = EMPTY_SYMBOL
     else:
         directors = ', '.join([director for (director,) in directors])
     return directors
@@ -142,7 +147,7 @@ def from_countries(countries):
         return None
 
     if len(countries) == 0:
-        countries = "—"
+        countries = EMPTY_SYMBOL
     else:
         countries = ', '.join([country for (country,) in countries])
     return countries
