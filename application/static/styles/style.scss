@@ -434,6 +434,7 @@ $infoHeight: 70px;
         &_fixed {
             position: fixed;
             top: 75px;
+            width: 350px;
         }
         padding: 15px;
         height: 340px;
@@ -463,12 +464,22 @@ $infoHeight: 70px;
             &__key {
                 margin-top: 10px;
                 width: 100%;
-                padding: 10px;
+                padding: 10px 10px 10px 15px;
                 border: 0;
                 border-radius: $borderRadiusForNeuBlocks;
                 background: #f9fafa;
                 box-shadow: inset 4px 4px 4px #e0e1e1,
                             inset -4px -4px 4px #ffffff;        
+            }
+            #genre {
+                box-shadow: 4px 4px 4px #e0e1e1,
+                            -4px -4px 4px #ffffff; 
+            }
+            #genre:hover {
+                cursor: pointer;
+            }
+            #year {
+                margin-top: 20px;
             }
             &__key:focus {
                 outline: none;
@@ -506,7 +517,7 @@ $infoHeight: 70px;
                 position: absolute;
                 height: 140px;
                 overflow-y: scroll;
-                margin-top: 15px;
+                margin-top: 120px;
                 width: 320px;
                 &_active { display: block; }
                 display: none;

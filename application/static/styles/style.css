@@ -635,6 +635,7 @@ img {
 .sidebar .settings_fixed {
   position: fixed;
   top: 75px;
+  width: 350px;
 }
 
 .sidebar .settings .types {
@@ -703,12 +704,25 @@ img {
 .sidebar .settings__form__key {
   margin-top: 10px;
   width: 100%;
-  padding: 10px;
+  padding: 10px 10px 10px 15px;
   border: 0;
   border-radius: 13px;
   background: #f9fafa;
   -webkit-box-shadow: inset 4px 4px 4px #e0e1e1, inset -4px -4px 4px #ffffff;
           box-shadow: inset 4px 4px 4px #e0e1e1, inset -4px -4px 4px #ffffff;
+}
+
+.sidebar .settings__form #genre {
+  -webkit-box-shadow: 4px 4px 4px #e0e1e1, -4px -4px 4px #ffffff;
+          box-shadow: 4px 4px 4px #e0e1e1, -4px -4px 4px #ffffff;
+}
+
+.sidebar .settings__form #genre:hover {
+  cursor: pointer;
+}
+
+.sidebar .settings__form #year {
+  margin-top: 20px;
 }
 
 .sidebar .settings__form__key:focus {
@@ -801,7 +815,7 @@ img {
   position: absolute;
   height: 140px;
   overflow-y: scroll;
-  margin-top: 15px;
+  margin-top: 120px;
   width: 320px;
   display: none;
   border-radius: 13px;

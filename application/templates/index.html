@@ -129,27 +129,22 @@
                     </div>
                 </div>
                 <div class="settings">
-                    <div class="menu">
-                        <div class="menu__title"><span>Жанры</span></div>
-                        <div class="menu__button">
-                            <span>Все жанры</span>
-                            <i class="fa fa-caret-down fa-1x menu-icon" aria-hidden="true"></i>
-                        </div>
-                        <ul class="menu__list">
-
-                            {% for genre in genres %}
-                            <li class="menu__list__item">{{ genre }}</li>
-                            {% endfor %}
-
-                        </ul>
-                    </div>
                     <div class="types">
-                        <div style="margin-top: 50px; text-align: center;">Фильтрация</div>
+                        <div style="margin-top: 10px; text-align: center;">Фильтрация</div>
                         <form class='settings__form' method="post">
                             <label for="genre"></label>
-                            <input class="settings__form__key" autocomplete="off" type="genre" name='genre' placeholder="Введите жанр...">
+                            <input id='genre' class="settings__form__key" autocomplete="off" type="genre" name='genre' placeholder="Введите жанр...">
+                            
+                            <ul class="menu__list">
+
+                                {% for genre in genres %}
+                                <li class="menu__list__item">{{ genre }}</li>
+                                {% endfor %}
+    
+                            </ul>
+
                             <label for="year"></label>
-                            <input class="settings__form__key" autocomplete="off" type="year" name='year' placeholder="Введите год...">
+                            <input id='year' class="settings__form__key" autocomplete="off" type="year" name='year' placeholder="Введите год...">
                             <button class=''>Отправить</button>
                         </form>
                     </div>          
@@ -195,11 +190,5 @@
             </div>
         </div>
     </div>
-    <!-- <div class="modal inactive">
-        <div class="modal__window">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit unde consequatur quisquam voluptates tempore, non eius consequuntur mollitia aspernatur recusandae sint beatae harum officiis dolorum ipsum possimus natus delectus magni.
-            <button class="modal__close-button">Закрыть</button>
-        </div>
-    </div> -->
 </body>
 </html>

@@ -18,34 +18,14 @@ inputMenu.addEventListener('mouseover', () => {
 
 //// Выпадающее меню жанров
 const genreMenu = document.querySelector('.menu'),
-      genreMenuList = genreMenu.querySelector('.menu__list'),
-      genreMenuButton = genreMenu.querySelector('.menu__button'),
-      genreMenuIcon = genreMenu.querySelector('.menu-icon'),
-      genreSettingsButton = document.querySelector('.settings__extended-button');
+      genreMenuList = document.querySelector('.menu__list'),
+      genreMenuButton = document.querySelector('.settings__form__key'),
+      genreMenuIcon = document.querySelector('.menu-icon');
 
 genreMenuButton.addEventListener('click', () => {
     genreMenuList.classList.toggle('menu__list_active');
     genreMenuIcon.classList.toggle('fa-rotate-180');
 })
-
-// //// Модальное окно авторизации
-// function showModalWindow() {
-//     modal.classList.remove('inactive');
-// }
-// function removeModalWindow() {
-//     modal.classList.add('inactive');
-// }
-
-// const modal = document.querySelector('.modal'),
-//       modalWindow = modal.querySelector('.modal__window'),
-//       modalCloseButton = modal.querySelector('.modal__close-button');
-
-// modalCloseButton.addEventListener('click', removeModalWindow);
-
-// modal.addEventListener('click', e => {
-//     if (e.target != modalWindow)
-//         removeModalWindow();
-// })
 
 //// Слайдер рекомендаций (Без анимации)
 let minActiveI = 0;
@@ -123,17 +103,3 @@ $(document).ready(() => {
         }
     })
 })
-
-//// Добавление фильмов
-// $(document).ready(() => {
-//     let countOfFilms = 0;
-//     $(window).scroll(() => {
-//         const scrolled = $(window).scrollTop();
-//         if (scrolled > 1000 + countOfFilms * 145) {
-//             let request = fetch(`/new-films/${100}`, { 
-//                 method: "GET", 
-//                 headers:{"content-type":"application/json"}
-//             }).then(response => console.log(response.text()))
-//         }
-//     })
-// })
