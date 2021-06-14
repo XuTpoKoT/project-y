@@ -28,24 +28,24 @@ genreMenuButton.addEventListener('click', () => {
     genreMenuIcon.classList.toggle('fa-rotate-180');
 })
 
-//// Модальное окно авторизации
-function showModalWindow() {
-    modal.classList.remove('inactive');
-}
-function removeModalWindow() {
-    modal.classList.add('inactive');
-}
+// //// Модальное окно авторизации
+// function showModalWindow() {
+//     modal.classList.remove('inactive');
+// }
+// function removeModalWindow() {
+//     modal.classList.add('inactive');
+// }
 
-const modal = document.querySelector('.modal'),
-      modalWindow = modal.querySelector('.modal__window'),
-      modalCloseButton = modal.querySelector('.modal__close-button');
+// const modal = document.querySelector('.modal'),
+//       modalWindow = modal.querySelector('.modal__window'),
+//       modalCloseButton = modal.querySelector('.modal__close-button');
 
-modalCloseButton.addEventListener('click', removeModalWindow);
+// modalCloseButton.addEventListener('click', removeModalWindow);
 
-modal.addEventListener('click', e => {
-    if (e.target != modalWindow)
-        removeModalWindow();
-})
+// modal.addEventListener('click', e => {
+//     if (e.target != modalWindow)
+//         removeModalWindow();
+// })
 
 //// Слайдер рекомендаций (Без анимации)
 let minActiveI = 0;

@@ -636,6 +636,9 @@ img {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   row-gap: 10px;
@@ -691,9 +694,10 @@ img {
           align-items: center;
 }
 
-.sidebar .settings__form__genre {
+.sidebar .settings__form__key {
+  margin-top: 10px;
   width: 100%;
-  padding: 7px;
+  padding: 10px;
   border: 0;
   border-radius: 13px;
   background: #f9fafa;
@@ -701,7 +705,7 @@ img {
           box-shadow: inset 4px 4px 4px #e0e1e1, inset -4px -4px 4px #ffffff;
 }
 
-.sidebar .settings__form__genre:focus {
+.sidebar .settings__form__key:focus {
   outline: none;
 }
 

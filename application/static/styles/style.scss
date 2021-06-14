@@ -434,6 +434,7 @@ $infoHeight: 70px;
             margin: 30px 0 0 0;
             @include NeuButtons;
             display: flex;
+            justify-content: center;
             flex-wrap: wrap;
             row-gap: 10px;
             column-gap: 15px;
@@ -451,16 +452,17 @@ $infoHeight: 70px;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            &__genre {
+            &__key {
+                margin-top: 10px;
                 width: 100%;
-                padding: 7px;
+                padding: 10px;
                 border: 0;
                 border-radius: $borderRadiusForNeuBlocks;
                 background: #f9fafa;
                 box-shadow: inset 4px 4px 4px #e0e1e1,
                             inset -4px -4px 4px #ffffff;        
             }
-            &__genre:focus {
+            &__key:focus {
                 outline: none;
             }
             button {

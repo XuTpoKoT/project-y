@@ -75,11 +75,15 @@ def main_page():
     if request.method == 'POST' and not request.form.get('substr'):
         # Получение фильмов по жанру (отдел настроек)
         genre = request.form.get('genre')
-
-        film_list = search.filter_by_genre(genre, 30, 0, cur)
-
-        validate_client_data(film_list)
-
+        year = request.form.get('year')
+        if not year:
+            film_list = search.filter_by_genre(genre, 30, 0, cur)
+            validate_client_data(film_list)
+        
+        if year:
+            film_list = search.multi_filter(request.form, 10, 0, cur)
+            validate_client_data(film_list)
+            
         return render_template('index.html', 
             film_recommendations=film_recommendations, 
             film_list = film_list, 

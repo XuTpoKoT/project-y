@@ -110,5 +110,41 @@ def filter_by_genre(genre, count, offset, cur):
     return result
 
 
+def multi_filter(data, count, offset, cur):
+    sql_statement = "SELECT film_id FROM film_info NATURAL JOIN rating WHERE "
+    need_and = False
+
+    if data.get("year") is not None:
+        year = data["year"]
+        need_and = True
+        sql_statement += " year = {0} ".format(year)
+
+    if data.get("genre") is not None:
+        genre = data["genre"]
+
+        cur.execute("SELECT genre_id FROM genres WHERE genre = '{}'".format(genre))
+        temp = cur.fetchone()
+        if temp is None:
+            return None
+        else:
+            genre_id = temp[0]
+
+        if need_and:
+            sql_statement += " AND "
+        need_and = True
+
+        sql_statement += " film_id IN (SELECT film_id FROM genres_films WHERE genre_id = {0}) ".format(genre_id)
+
+    if not need_and:
+        return None
+
+    sql_statement += " ORDER BY kinopoisk DESC LIMIT {0}, {1} ".format(offset, count)
+
+    result = []
+    for row in cur.execute(sql_statement).fetchall():
+        result.append(get_data_film(row[0], cur))
+    return result
+
+
 if __name__ == "__main__":
     pass
