@@ -264,13 +264,6 @@ def get_countries(film_id, cur):
     return result
 
 
-def get_all_genres(cur):
-    cur.execute("SELECT country "
-                "FROM coutries")
-    result = cur.fetchall()
-    return result
-
-
 def get_recommendations(count, cur):
     result = []
     ccount = 0
@@ -286,6 +279,24 @@ def get_recommendations(count, cur):
             result.append(get_data_film(film_id, cur))
             ccount += 1
     return result
+
+
+def get_all_genres(cur):
+    cur.execute("SELECT genre "
+                "FROM genres")
+    result = cur.fetchall()
+    return result
+
+
+def get_all_countries(cur):
+    cur.execute("SELECT country "
+                "FROM countries")
+    result = cur.fetchall()
+    return result
+
+
+def get_all_years(cur):
+    return list(range(1888, 2024))
 
 
 if __name__ == "__main__":
