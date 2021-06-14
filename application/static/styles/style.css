@@ -79,6 +79,11 @@ img {
 }
 
 .header {
+  width: 100%;
+  z-index: 200;
+  position: fixed;
+  top: 0;
+  left: 0;
   background: -webkit-gradient(linear, left top, right top, from(#b894d6), to(#8da6db));
   background: linear-gradient(90deg, #b894d6, #8da6db);
   height: 50px;
@@ -316,7 +321,7 @@ img {
   font-weight: 300;
   font-size: 20px;
   padding: 15px;
-  margin: 20px 0 0 0;
+  margin: 70px 0 0 0;
   height: 315px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -464,6 +469,7 @@ img {
 }
 
 .movies {
+  top: 0;
   margin: 25px 0;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -474,14 +480,9 @@ img {
 }
 
 .movies .list {
-  overflow-y: scroll;
-  padding: 15px 15px 0 15px;
+  padding: 0 15px 0 15px;
   width: 785px;
   height: 540px;
-  border-radius: 13px;
-  background: #f9fafa;
-  -webkit-box-shadow: 4px 4px 4px #e0e1e1, -4px -4px 4px #ffffff;
-          box-shadow: 4px 4px 4px #e0e1e1, -4px -4px 4px #ffffff;
 }
 
 .movies .list__item {
@@ -629,6 +630,11 @@ img {
   background: #f9fafa;
   -webkit-box-shadow: 4px 4px 4px #e0e1e1, -4px -4px 4px #ffffff;
           box-shadow: 4px 4px 4px #e0e1e1, -4px -4px 4px #ffffff;
+}
+
+.sidebar .settings_fixed {
+  position: fixed;
+  top: 75px;
 }
 
 .sidebar .settings .types {
@@ -860,7 +866,7 @@ img {
 }
 
 .full__film__info {
-  margin-top: 25px;
+  margin-top: 75px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

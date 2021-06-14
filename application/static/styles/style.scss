@@ -90,6 +90,11 @@ $infoHeight: 70px;
 
 // Блок Header
 .header {
+    width: 100%;
+    z-index: 200;
+    position: fixed;
+    top: 0;
+    left: 0;
     background: linear-gradient(90deg,#b894d6, #8da6db);
     height: 50px;
     .container {
@@ -246,7 +251,7 @@ $infoHeight: 70px;
     font-weight: 300;
     font-size: 20px;
     padding: 15px;
-    margin: 20px 0 0 0;
+    margin: 70px 0 0 0;
     height: 315px;
     display: flex;
     flex-direction: column;
@@ -329,15 +334,14 @@ $infoHeight: 70px;
 
 // Блок со списком фильмов
 .movies {
+    top: 0;
     margin: 25px 0;
     display: flex;
     justify-content: space-between;
     .list {
-        overflow-y: scroll;
-        padding: 15px 15px 0 15px;
+        padding: 0 15px 0 15px;
         width: $movieListWidth;
         height: $movieListHeight;
-        @include NeuForMainBlocks;
         &__item {
             display: flex;
             height: 145px;
@@ -427,6 +431,10 @@ $infoHeight: 70px;
         span { color: white; }
     }
     .settings {
+        &_fixed {
+            position: fixed;
+            top: 75px;
+        }
         padding: 15px;
         height: 340px;
         @include NeuForMainBlocks;
@@ -533,7 +541,7 @@ $infoHeight: 70px;
 }
 
 .full__film__info {
-    margin-top: 25px;
+    margin-top: 75px;
     display: flex;
     .wrap1 {
         margin: 15px 0 15px 15px;

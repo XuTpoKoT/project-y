@@ -110,3 +110,16 @@ for (let genreLi of genreList) {
         genreMenuList.classList.toggle('menu__list_active');
     })
 }
+
+//// Позиционирование блока настроек
+$(document).ready(() => {
+    const navOffset = $('.settings').offset().top;
+    $(window).scroll(() => {
+        const scrolled = $(this).scrollTop();
+        if (scrolled + 50 > navOffset) {
+            $('.settings').addClass('settings_fixed')
+        } else {
+            $('.settings').removeClass('settings_fixed')
+        }
+    })
+})
