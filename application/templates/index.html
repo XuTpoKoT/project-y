@@ -15,11 +15,14 @@
             <div class="header__wrap">
                 <div class="header__logo"><a href="http://127.0.0.1:5000/">LOGOTYPE</a></div>
                 <div class="search">
-                    <input type="text" placeholder="Поиск" class="input__header"/>
+                    <form class='header__form' method="post">
+                        <label for="substr"></label>
+                        <input class="input__header" type="substr" name="substr" placeholder="Поиск" />   
+                    </form>
                     <ul class="input__menu">
 
-                        {% if film_list %}
-                        {% for film in film_list %}
+                        {% if film_menu %}
+                        {% for film in film_menu %}
                         <a href="http://127.0.0.1:5000/{{ film['film_id'] }}">
                         <div class="input__menu__item">
                             <div class="input__menu__item__image">
@@ -50,7 +53,6 @@
                             Список фильмов пуст.
                         </div>
                         {% endif %}
-
                     </ul>
                 </div>
             </div>
@@ -81,7 +83,7 @@
                             </div>
                             <div class="slider__item__info">
                                 <div class="slider__item__info__title">
-                                    {{ film['title'] }}
+                                    <strong>{{ film['title'] }}</strong>
                                 </div>
                                 <div class="slider__item__info__genre">
                                     {{ film['genres'] }}
@@ -177,7 +179,9 @@
                 {% endfor %}
                 {% else %}
                 <div class="list__item__empty">
-                    Список фильмов пуст.
+                    <div>                    
+                        Список фильмов пуст.
+                    </div>
                 </div>
                 {% endif %}
 

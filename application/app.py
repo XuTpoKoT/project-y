@@ -1,3 +1,5 @@
+# coding=utf-8
+
 from flask import Flask, request, url_for, render_template, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import sys
@@ -11,10 +13,11 @@ import convert
 import search
 
 def validate_client_data(film_list):
+    upper_limit = 20
     if film_list:
         for i in range(len(film_list)):
-            if len(film_list[i]['title']) > 36:
-                film_list[i]['title'] = film_list[i]['title'][0:36] + '...'
+            if len(film_list[i]['title']) > upper_limit:
+                film_list[i]['title'] = film_list[i]['title'][0:upper_limit] + '...'
         for i in range(len(film_list)):
             film_list[i]['genres'] = film_list[i]['genres'].split(', ')[0]
         for i in range(len(film_list)):
@@ -62,14 +65,14 @@ def main_page():
 
     # Работа с рекомендациями
     film_recommendations = [
-        films_db.get_data_film(i, cur) for i in range(12, 22)
+        films_db.get_data_film(random.randint(1, 100), cur) for i in range(12, 22)
     ]
     validate_client_data(film_recommendations)
     # Работа с листом фильмов
     film_list = [films_db.get_data_film(i, cur) for i in range(1, 11)]
     validate_client_data(film_list)
 
-    if request.method == 'POST' and not request.form.get('text'):
+    if request.method == 'POST' and not request.form.get('substr'):
         # Получение фильмов по жанру (отдел настроек)
         genre = request.form.get('genre')
 
@@ -80,12 +83,27 @@ def main_page():
         return render_template('index.html', 
             film_recommendations=film_recommendations, 
             film_list = film_list, 
-            genres = genres)
+            genres = genres,
+            film_menu = [])
+        
+    if request.method == 'POST' and request.form.get('substr'):
+        # Получение фильмов по жанру (отдел настроек)
+        substr = request.form.get('substr')
+        response = search.find(substr, cur)
+        print(response)
+        film_menu = response['films']
+
+        return render_template('index.html', 
+            film_recommendations=film_recommendations, 
+            film_list = film_list, 
+            genres = genres,
+            film_menu = film_menu)
 
     return render_template('index.html', 
         film_recommendations=film_recommendations, 
         film_list = film_list, 
-        genres = genres)
+        genres = genres,
+        film_menu = [])
 
 @app.route('/<id>')
 def film_page(id):
