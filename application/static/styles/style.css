@@ -641,6 +641,66 @@ img {
   text-align: center;
 }
 
+.sidebar .settings__form {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.sidebar .settings__form__genre {
+  width: 100%;
+  padding: 7px;
+  border: 0;
+  border-radius: 13px;
+  background: #f9fafa;
+  -webkit-box-shadow: inset 4px 4px 4px #e0e1e1, inset -4px -4px 4px #ffffff;
+          box-shadow: inset 4px 4px 4px #e0e1e1, inset -4px -4px 4px #ffffff;
+}
+
+.sidebar .settings__form__genre:focus {
+  outline: none;
+}
+
+.sidebar .settings__form button {
+  margin-top: 10px;
+  padding: 7px;
+  border-radius: 13px;
+  background: #f9fafa;
+  -webkit-box-shadow: 4px 4px 4px #e0e1e1, -4px -4px 4px #ffffff;
+          box-shadow: 4px 4px 4px #e0e1e1, -4px -4px 4px #ffffff;
+}
+
+.sidebar .settings__form button button {
+  border: 0;
+}
+
+.sidebar .settings__form button button:hover {
+  cursor: pointer;
+}
+
+.sidebar .settings__form button button:focus {
+  outline: none;
+}
+
+.sidebar .settings__form button button:active {
+  outline: none;
+  border-radius: 13px;
+  background: #f9fafa;
+  -webkit-box-shadow: inset 4px 4px 4px #e0e1e1, inset -4px -4px 4px #ffffff;
+          box-shadow: inset 4px 4px 4px #e0e1e1, inset -4px -4px 4px #ffffff;
+}
+
 .sidebar .settings .menu__title span {
   font-weight: 300;
   font-size: 20px;

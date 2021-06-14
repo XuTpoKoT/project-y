@@ -426,6 +426,31 @@ $infoHeight: 70px;
                 text-align: center;
             }
         }
+        &__form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            &__genre {
+                width: 100%;
+                padding: 7px;
+                border: 0;
+                border-radius: $borderRadiusForNeuBlocks;
+                background: #f9fafa;
+                box-shadow: inset 4px 4px 4px #e0e1e1,
+                            inset -4px -4px 4px #ffffff;        
+            }
+            &__genre:focus {
+                outline: none;
+            }
+            button {
+                margin-top: 10px;
+                padding: 7px;
+                @include NeuForMainBlocks();
+                @include NeuButtons();
+            }
+        }
         // Блок с меню
         .menu {
             &__title span { font-weight: 300; font-size: 20px;}
