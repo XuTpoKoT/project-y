@@ -284,14 +284,14 @@ def get_recommendations(count, cur):
 def get_all_genres(cur):
     cur.execute("SELECT genre "
                 "FROM genres")
-    result = cur.fetchall()
+    result = [x for (x,) in cur.fetchall()]
     return result
 
 
 def get_all_countries(cur):
     cur.execute("SELECT country "
                 "FROM countries")
-    result = cur.fetchall()
+    result = [x for (x,) in cur.fetchall()]
     return result
 
 
