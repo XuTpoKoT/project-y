@@ -158,10 +158,9 @@ def multi_filter(data, count, offset, cur):
             country_id)
 
     if not need_and:
-        return None
-    sql_statement += " ORDER BY kinopoisk DESC LIMIT {0}, {1} ".format(offset, count)
+        sql_statement = sql_statement.replace("WHERE", "")
 
-    print(sql_statement)
+    sql_statement += " ORDER BY kinopoisk DESC LIMIT {0}, {1} ".format(offset, count)
     result = []
     for row in cur.execute(sql_statement).fetchall():
         result.append(get_data_film(row[0], cur))
