@@ -1,3 +1,5 @@
+import random
+
 import convert
 
 
@@ -266,6 +268,23 @@ def get_all_genres(cur):
     cur.execute("SELECT country "
                 "FROM coutries")
     result = cur.fetchall()
+    return result
+
+
+def get_recommendations(count, cur):
+    result = []
+    ccount = 0
+    film_count = cur.execute("SELECT count(*) FROM film_info").fetchone()[0]
+
+    while ccount < count:
+        film_id = random.randint(1, film_count)
+        cur.execute("SELECT img_path "
+                    "FROM images_films "
+                    "WHERE film_id = ?", (film_id,))
+        img_path = cur.fetchone()[0]
+        if img_path is not None:
+            result.append(get_data_film(film_id, cur))
+            ccount += 1
     return result
 
 
