@@ -6,6 +6,8 @@ import sys
 import sqlite3
 import random
 
+from werkzeug.wrappers import response
+
 # Пользовательские модули
 sys.path.insert(0, "../films_db")
 import films_db
@@ -100,11 +102,11 @@ def main_page():
         film_menu.append([films_db.get_data_film(film[0], cur) for film in response['films']])
         validate_client_data(film_menu[0])
 
-        film_menu.append([films_db.get_data_film(film[0], cur) for film in response['films']])
-        validate_client_data(film_menu[1])
+        # film_menu.append([films_db.get_data_film(film[0], cur) for film in response['films']])
+        # validate_client_data(film_menu[1])
 
-        film_menu.append([films_db.get_data_film(film[0], cur) for film in response['films']])
-        validate_client_data(film_menu[2])
+        # film_menu.append([films_db.get_data_film(film[0], cur) for film in response['films']])
+        # validate_client_data(film_menu[2])
 
         # film_menu.append([films_db.get_data_film(film[0], cur) for film in response['actors']])
         # validate_client_data(film_menu[1])
@@ -145,5 +147,15 @@ def film_page(id):
 
     return render_template('page.html', 
         film=film)
+
+# @app.route('/')
+# @app.route('/new-films')
+# @app.route('/new-films/<start>')
+# def get_new_films(start):
+#     conn = sqlite3.connect("../films_db/database/films.sql")
+#     cur = conn.cursor()
+#     res = [films_db.get_data_film(i, cur) for i in range(start, start + 20)]
+#     return jsonify(res), 200, {'content-type': 'application/json'}
+
 if __name__ == '__main__':
     app.run(debug=True)

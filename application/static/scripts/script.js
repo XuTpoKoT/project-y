@@ -123,3 +123,17 @@ $(document).ready(() => {
         }
     })
 })
+
+//// Добавление фильмов
+// $(document).ready(() => {
+//     let countOfFilms = 0;
+//     $(window).scroll(() => {
+//         const scrolled = $(window).scrollTop();
+//         if (scrolled > 1000 + countOfFilms * 145) {
+//             let request = fetch(`/new-films/${100}`, { 
+//                 method: "GET", 
+//                 headers:{"content-type":"application/json"}
+//             }).then(response => console.log(response.text()))
+//         }
+//     })
+// })
