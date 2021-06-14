@@ -13,7 +13,7 @@
     <div class="header">
         <div class="container">
             <div class="header__wrap">
-                <div class="header__logo"><a href="http://127.0.0.1:5000/">LOGOTYPE</a></div>
+                <div class="header__logo"><a href="/">LOGOTYPE</a></div>
                 <div class="search">
                     <form class='header__form' method="post">
                         <label for="substr"></label>
@@ -24,7 +24,7 @@
                         {% if film_menu %}
                             {% for category in film_menu %}
                                 {% for film in category %}
-                                <a href="http://127.0.0.1:5000/{{ film['film_id'] }}">
+                                <a href="/{{ film['film_id'] }}">
                                 <div class="input__menu__item">
                                     <div class="input__menu__item__image">
                                         <img src="{{ film['img_path'] }}" alt="">
@@ -81,7 +81,7 @@
                         {% else %}
                         <div class="slider__item">                         
                         {% endif %}
-                            <a href="http://127.0.0.1:5000/{{ film['film_id'] }}">
+                            <a href="/{{ film['film_id'] }}">
                             <div class="slider__item__image">
                                 <img src="{{ film['img_path'] }}" alt="">
                             </div>
@@ -158,7 +158,7 @@
 
                 {% if film_list %}
                 {% for film in film_list %}
-                <a href="http://127.0.0.1:5000/{{ film['film_id'] }}">
+                <a href="/{{ film['film_id'] }}">
                 <div class="list__item">
                     <div class="list__item__image">
                         <img src="{{ film['img_path'] }}" alt="">
