@@ -98,6 +98,11 @@ $infoHeight: 70px;
         justify-content: space-between;
         align-items: center;
     }
+    &__logo a {
+        color: white;
+        font-size: 32px;
+        font-weight: 500;
+    }
     .search {
         margin: 0 0 0 200px;
         display: flex;
@@ -252,10 +257,6 @@ $infoHeight: 70px;
             display: none;
             flex-direction: column;
             position: relative;
-            align-items: flex-end;
-
-            background-color: rgb(39, 36, 36);
-
             &__info {
                 padding: 5px;
                 width: 100%;
@@ -263,15 +264,15 @@ $infoHeight: 70px;
                 bottom: 0px;
                 height: $infoHeight;
                 border-radius: 0 0 $borderRadiusForNeuBlocks $borderRadiusForNeuBlocks;
-                background-color: #9f9e9f;
+                background-color: white;
                 opacity: 0.7;
                 &__title {
-                    font-weight: 300;
-                    font-size: 14px;
+                    font-weight: 500;
+                    font-size: 16px;
                     margin-bottom: 5px;
                 }
                 &__genre {
-                    font-weight: 300;
+                    font-weight: 400;
                     font-size: 12px;
                 }
             }
@@ -288,6 +289,10 @@ $infoHeight: 70px;
                 font-size: 14px;
                 color: white;
                 margin: 5px;
+            }
+            a {
+                width: 100%;
+                height: 100%;
             }
             &__image {
                 width: 100%;
@@ -480,41 +485,76 @@ $infoHeight: 70px;
     }
 }
 
-.full__film__info{
-    height: 900px;
-    background-color: black;
+.full__film__info {
+    margin-top: 25px;
     display: flex;
     .wrap1 {
+        margin: 15px 0 15px 15px;
+        width: 870px;
         display: block;
     }
     .wrap2 {
         display: flex;
     }
     &__image {
+        img {border-radius: 13px;}
+        margin-right: 15px;
         width: 200px;
         height: 300px;
         @include NeuForMainBlocks();
     }
     &__about {
-        width: 500px;
+        width: 640px;
         height: 300px;
         @include NeuForMainBlocks();
     }
-    &__sidebar {
-        width: 350px;
-        height: 500px;
+    &__all {
+        padding: 15px;
+    }
+    &__title {
+        font-size: 32px;
+        margin-top: 10ox;
+    }
+    &__original-title {
+        font-size: 20px;
+        margin-top: 10px;
+    }
+    &__detail {
+        font-weight: 300;
+        display: flex;
+        &__left-side {
+            flex: 1;
+        }
+        &__right-side {
+            flex: 3;
+        }
     }
     &__descr {
-        width: 700px;
-        height: 500px;
+        padding: 15px;
+        margin-top: 15px;
+        min-height: 200px;
         @include NeuForMainBlocks();
     }
     &__rating {
-        height: 100px;
+        span {color: white;}
+        font-weight: 500;
+        font-size: 24px;
+        height: 40px;
         @include NeuForMainBlocks();
+        background-color: #1db224;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &__sidebar {
+        padding: 15px;
+        width: 280px;
     }
     &__actors {
-        height: 700px;
+        padding: 15px;
+        margin: 15px 0 15px 0;
+        height: (100% - 100% * 55 / 515);
         @include NeuForMainBlocks();
+        div { margin-top: 7px; font-size: 16px;}
     }
 }

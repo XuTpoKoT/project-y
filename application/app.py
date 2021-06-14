@@ -10,6 +10,16 @@ import films_db
 import convert
 import search
 
+def validate_client_data(film_list):
+    if film_list:
+        for i in range(len(film_list)):
+            if len(film_list[i]['title']) > 36:
+                film_list[i]['title'] = film_list[i]['title'][0:36] + '...'
+        for i in range(len(film_list)):
+            film_list[i]['genres'] = film_list[i]['genres'].split(', ')[0]
+        for i in range(len(film_list)):
+            if (film_list[i]['img_path']):
+                film_list[i]['img_path'] = url_for('static', filename=film_list[i]['img_path'])
 # Инициализация Flask
 app = Flask(__name__)
 
@@ -54,21 +64,10 @@ def main_page():
     film_recommendations = [
         films_db.get_data_film(i, cur) for i in range(12, 22)
     ]
-    if film_recommendations:
-        for i in range(len(film_recommendations)):
-            film_recommendations[i]['genres'] = film_recommendations[i]['genres'].split(', ')[0]
-        for i in range(len(film_recommendations)):
-            film_recommendations[i]['img_path'] = url_for('static', filename=film_recommendations[i]['img_path'])
-
+    validate_client_data(film_recommendations)
     # Работа с листом фильмов
-    film_list = [
-        films_db.get_data_film(i, cur) for i in range(1, 11)
-    ]
-    if film_list:
-        for i in range(len(film_list)):
-            film_list[i]['genres'] = film_list[i]['genres'].split(', ')[0]
-        for i in range(len(film_list)):
-            film_list[i]['img_path'] = url_for('static', filename=film_list[i]['img_path'])
+    film_list = [films_db.get_data_film(i, cur) for i in range(1, 11)]
+    validate_client_data(film_list)
 
     if request.method == 'POST' and not request.form.get('text'):
         # Получение фильмов по жанру (отдел настроек)
@@ -76,23 +75,13 @@ def main_page():
 
         film_list = search.filter_by_genre(genre, 30, 0, cur)
 
-        if film_list:
-            for i in range(len(film_list)):
-                film_list[i]['genres'] = film_list[i]['genres'].split(', ')[0]
-            for i in range(len(film_list)):
-                film_list[i]['img_path'] = url_for('static', filename=film_list[i]['img_path'])
-        
-        # print('GENRE :'+ str(genre))
-        # print('\nFILM_LIST')
-        # print(str(type(film_list)) + '\n')
-        # print(film_list)
+        validate_client_data(film_list)
 
         return render_template('index.html', 
-        film_recommendations=film_recommendations, 
-        film_list = film_list, 
-        genres = genres)
+            film_recommendations=film_recommendations, 
+            film_list = film_list, 
+            genres = genres)
 
-    print(film_list)
     return render_template('index.html', 
         film_recommendations=film_recommendations, 
         film_list = film_list, 
@@ -107,6 +96,15 @@ def film_page(id):
 
     all_actors = film['actors'].split(', ')
     film['actors'] = all_actors
+
+    if len(film['genres'].split(', ')) > 2:
+        current = [film['genres'].split(', ')[i] for i in range(2)]
+        film['genres'] = ', '.join(current)
+
+    if len(film['title']) > 30:
+        film['title'] = film['title'][:33] + '...'
+
+    film['img_path'] = url_for('static', filename=film['img_path'])
 
     return render_template('page.html', 
         film=film)

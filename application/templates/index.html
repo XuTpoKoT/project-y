@@ -70,26 +70,28 @@
                 <div class="slider">
 
                     {% for film in film_recommendations %}
-                    {% if loop.index <= 6 %}       
-                    <div class="slider__item slider__item_active">          
-                    {% else %}
-                    <div class="slider__item">                         
-                    {% endif %}
-                        <div class="slider__item__image">
-                            <img src="{{ film['img_path'] }}" alt="">
-                        </div>
-                        <div class="slider__item__info">
-                            <div class="slider__item__info__title">
-                                {{ film['title'] }}
+                        {% if loop.index <= 6 %}       
+                        <div class="slider__item slider__item_active">          
+                        {% else %}
+                        <div class="slider__item">                         
+                        {% endif %}
+                            <a href="http://127.0.0.1:5000/{{ film['film_id'] }}">
+                            <div class="slider__item__image">
+                                <img src="{{ film['img_path'] }}" alt="">
                             </div>
-                            <div class="slider__item__info__genre">
-                                {{ film['genres'] }}
-                            </div>             
+                            <div class="slider__item__info">
+                                <div class="slider__item__info__title">
+                                    {{ film['title'] }}
+                                </div>
+                                <div class="slider__item__info__genre">
+                                    {{ film['genres'] }}
+                                </div>             
+                            </div>
+                            <div class="slider__item__rating">
+                                {{ film['imdb'] }}  
+                            </div>
+                        </a>
                         </div>
-                        <div class="slider__item__rating">
-                            {{ film['imdb'] }}  
-                        </div>
-                    </div>
                     {% endfor %}   
 
                 </div>
