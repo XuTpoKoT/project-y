@@ -11,6 +11,17 @@ def count2int(count):
     return int(float(count[:pos]) * 1000)
 
 
+def int2count(number):
+    if number is None:
+        return None
+    result = ""
+    while number % 1000 == 0:
+        result += "K"
+        number //= 1000
+    result = str(number) + result
+    return result
+
+
 def value2str(text):
     if text is None:
         text = "—"
@@ -54,12 +65,11 @@ def from_film_info(film_info):
     result = {"title": value2str(film_info[2]),
               "original_title": value2str(film_info[3]),
               "year": value2str(film_info[4]),
-              "country": value2str(film_info[5]),
-              "budget": value2str(film_info[6]),
-              "runtime": value2str(film_info[7]),
-              "world_gross": value2str(film_info[8]),
-              "age": value2str(film_info[9]),
-              "description": value2str(film_info[10])}
+              "budget": value2str(film_info[5]),
+              "runtime": value2str(film_info[6]),
+              "world_gross": value2str(film_info[7]),
+              "age": value2str(film_info[8]),
+              "description": value2str(film_info[9])}
     return result
 
 
@@ -84,8 +94,55 @@ def to_rating(data_film):
 
 
 def from_rating(rating):
+    if rating is None:
+        return None
+
     result = {"kinopoisk": value2str(rating[0]),
-              "kinopoisk_count": value2str(rating[1]),
+              "kinopoisk_count": int2count(rating[1]),
               "imdb": value2str(rating[2]),
-              "imdb_count": value2str(rating[3])}
+              "imdb_count": int2count(rating[3])}
     return result
+
+
+def from_genres(genres):
+    if genres is None:
+        return None
+
+    if len(genres) == 0:
+        genres = "—"
+    else:
+        genres = ', '.join([genre for (genre,) in genres])
+    return genres
+
+
+def from_actors(actors):
+    if actors is None:
+        return None
+
+    if len(actors) == 0:
+        actors = "—"
+    else:
+        actors = ', '.join([actor for (actor,) in actors])
+    return actors
+
+
+def from_directors(directors):
+    if directors is None:
+        return None
+
+    if len(directors) == 0:
+        directors = "—"
+    else:
+        directors = ', '.join([director for (director,) in directors])
+    return directors
+
+
+def from_countries(countries):
+    if countries is None:
+        return None
+
+    if len(countries) == 0:
+        countries = "—"
+    else:
+        countries = ', '.join([country for (country,) in countries])
+    return countries

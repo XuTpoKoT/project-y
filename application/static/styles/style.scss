@@ -1,0 +1,626 @@
+* {
+    a { text-decoration: none; }
+    li { list-style-type: none; }
+    color: #2e3346;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.container {
+    margin: 0 auto;
+    width: 1150px;
+}
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+
+
+$movieListHeight: 540px;
+$movieListWidth: 785px;
+$headerInputWidth: 500px;
+$headerInputHeight: 40px;
+$borderRadiusForNeuBlocks: 13px;
+$infoHeight: 70px;
+
+// Шрифты (Roboto)
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap');
+
+// Подключать к самому блоку 
+@mixin NeuForMainBlocks {
+    border-radius: $borderRadiusForNeuBlocks;
+    background: #f9fafa;
+    box-shadow:  4px 4px 4px #e0e1e1,
+                -4px -4px 4px #ffffff;
+    @content;
+}
+
+// Подключать к самому блоку 
+@mixin NeuForAccount {
+    background: linear-gradient(135deg,#b894d6, #8da6db);
+    border-radius: $borderRadiusForNeuBlocks;
+    box-shadow:  2px 2px 7px #8da6dd,
+                -2px -2px 7px #ceabeb;
+}
+
+// Подключать к РОДИТЕЛЬСКОМУ блоку
+@mixin NeuButtons {
+    button {
+        border: 0;
+    }
+    button:hover {
+        cursor: pointer;
+    }
+    button:focus {
+        outline: none;
+    }
+    button:active {
+        outline: none;
+        border-radius: 13px;
+        background: #f9fafa;
+        box-shadow: inset 4px 4px 4px #e0e1e1,
+                    inset -4px -4px 4px #ffffff;
+    }
+}
+
+// Модальное окно
+.modal {
+    top: 0%;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(0,0,0,.5);
+    display: grid;
+    place-items: center;
+    &__window {
+        border-radius: 10px;
+        background-color: #f0f0f0;
+        width: 350px;
+        height: 500px;
+    }
+    &__close-button {
+        padding: 5px 10px 5px 10px;
+        @include NeuForMainBlocks();
+    }
+    @include NeuButtons();
+}
+.inactive { display: none; }
+
+// Блок Header
+.header {
+    width: 100%;
+    z-index: 200;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(90deg,#b894d6, #8da6db);
+    height: 50px;
+    .container {
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    &__logo a {
+        color: white;
+        font-size: 32px;
+        font-weight: 500;
+    }
+    .search {
+        margin: 0 0 0 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        input {
+            &:hover {
+                cursor: pointer;
+            }
+            &:focus {
+                outline: none;
+                background-color: white;
+            }
+            padding: 0 0 0 10px;
+            border: 0;
+            border-radius: 5px;
+            background-color: rgba(255,255,255,.5);
+            background-image: url('./icons/searchIcon.png');
+            background-repeat: no-repeat;
+            background-position: 10px center;
+            font-size: 20px;
+            width: $headerInputWidth;
+            height:$headerInputHeight;
+            padding: 0 0 0 40px;
+        }
+        .input__menu {
+            padding: 15px 15px 0 15px;
+            overflow-y: scroll;
+            display: none;
+            position: absolute;
+            z-index: 100;
+            width: $headerInputWidth;
+            top: $headerInputHeight + 20px;
+            height: 500px;
+            background-color: white;
+            border-radius: 5px;
+            @include NeuForMainBlocks();
+            &__item {
+                display: flex;
+                height: 100px;
+                @include NeuForMainBlocks();
+                margin-top: 12px;
+                margin-bottom: 12px;
+                &__info {
+                    margin: 10px;
+                }
+                &__title {
+                    font-size: 12px;
+                    font-weight: 500;
+                }
+                &__original-title {
+                    font-size: 11px;
+                    font-weight: 300;
+                    margin-top: 10px;
+                }
+                &__country {
+                    font-size: 11px;
+                    font-weight: 300;
+                    margin-top: 10px;
+                }
+                &__vote {
+                    font-size: 12px;
+                    font-weight: 300;
+                    margin-top: 9px;
+                }
+                &__rating {
+                    margin: 0 15px 0 auto;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: #1db224;
+                    width: 50px;
+                    span {color: white;}
+                    font-weight: 500;
+                    font-size: 16px;
+                }
+                &__image {
+                    img { border-radius: $borderRadiusForNeuBlocks 0 0 $borderRadiusForNeuBlocks; }   
+                    width: 70px;
+                }
+                &__empty {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 22px;
+                    font-weight: 500;
+                }
+            }
+            &_active {
+                display: block;
+            }
+        }
+        &__icon {
+            width: 45px;
+            border-radius: 0 15px 15px 0;
+            border: 1px #2e3346 solid;
+            height: 30px;
+            background-color: rgb(158, 152, 152);
+        }
+    }
+    &__wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 40px;
+        span {
+            color: white;
+        }
+    }
+    &__profile {
+        padding: 0 10px 0 10px;
+        max-height: 45px;
+        width: 140px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &__nickname {
+            color: white;
+        }
+        &:hover { cursor: pointer; }    
+    }
+    &__profile__menu {
+        position: absolute;
+        width: 280px;
+        @include NeuForMainBlocks();
+        li {
+            padding: 10px 16px 10px 16px;
+            text-align: left;
+        }
+        display: none;
+        &_active {
+            display: block;
+        }
+    }  
+}
+
+// Блок рекомендаций
+.recommendations {
+    font-weight: 300;
+    font-size: 20px;
+    padding: 15px;
+    margin: 70px 0 0 0;
+    height: 315px;
+    display: flex;
+    flex-direction: column;
+    @include NeuForMainBlocks;
+    span { font-size: 20px; }
+    &__wrap {
+        margin: 10px 0;
+        width: 100%;
+    }
+    .slider {
+        display: flex;
+        justify-content: space-around;
+        width: 1120px;
+        &__item {
+            width: 170px;
+            height: 250px;
+            @include NeuForMainBlocks;
+            display: none;
+            flex-direction: column;
+            position: relative;
+            &__info {
+                padding: 5px;
+                width: 100%;
+                position: absolute;
+                bottom: 0px;
+                height: $infoHeight;
+                border-radius: 0 0 $borderRadiusForNeuBlocks $borderRadiusForNeuBlocks;
+                background-color: white;
+                opacity: 0.7;
+                &__title {
+                    font-weight: 500;
+                    font-size: 16px;
+                    margin-bottom: 5px;
+                }
+                &__genre {
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+            }
+            &__rating {
+                width: 40px;
+                height: 20px;
+                border-radius: 13px;
+                background-color: #1db224;
+                position: absolute;
+                bottom: $infoHeight;
+                order: -1;
+                padding: 2px 11px 2px 11px;
+                font-weight: 300;
+                font-size: 14px;
+                color: white;
+                margin: 5px;
+            }
+            a {
+                width: 100%;
+                height: 100%;
+            }
+            &__image {
+                width: 100%;
+                height: 100%;
+                img { border-radius: $borderRadiusForNeuBlocks; }   
+            }
+        }
+        &__item_active { display: flex; }
+        &__button-left, &__button-right {
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            button {
+                border-radius: $borderRadiusForNeuBlocks;
+                width: 35px;
+                height: 35px;
+            }
+            @include NeuButtons();
+        }
+        &__button-left {margin: -135px 0 0 15px;}
+        &__button-right {margin: -135px 0 0 1070px}
+    }
+}
+
+// Блок со списком фильмов
+.movies {
+    top: 0;
+    margin: 25px 0;
+    display: flex;
+    justify-content: space-between;
+    .list {
+        padding: 0 15px 0 15px;
+        width: $movieListWidth;
+        height: $movieListHeight;
+        &__item {
+            display: flex;
+            height: 145px;
+            @include NeuForMainBlocks();
+            margin-bottom: 25px;
+            &__info {
+                margin: 20px;
+            }
+            &__title {
+                font-size: 24px;
+                font-weight: 400;
+            }
+            &__original-title {
+                font-size: 12px;
+                font-weight: 300;
+                margin-top: 10px;
+            }
+            &__country {
+                font-size: 12px;
+                font-weight: 300;
+                margin-top: 10px;
+            }
+            &__vote {
+                font-size: 15px;
+                font-weight: 300;
+                margin-top: 12px;
+            }
+            &__rating {
+                margin: 0 15px 0 auto;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #1db224;
+                width: 100px;
+                span {color: white;}
+                font-weight: 500;
+                font-size: 32px;
+            }
+            &__image {
+                height: 100%;
+                img { border-radius: $borderRadiusForNeuBlocks 0 0 $borderRadiusForNeuBlocks; }   
+                width: 100px;
+            }
+            &__empty {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 32px;
+                font-weight: 500;
+            }
+        }
+    }
+}
+
+// Блок с инфой о личном кабинете и с настроками фильмов
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 350px;
+    height: $movieListHeight;
+     
+    .account {
+        padding: 15px;
+        height: 170px;
+        @include NeuForAccount;
+
+        &__wrap {
+            height: 70px;
+            display: flex;
+        }
+
+        &__data {
+            margin: 5px 0 0 15px;
+            &__login { font-weight: 100; }
+            &__initials { font-weight: 400; }
+        }
+
+        &__info {
+            font-weight: 100;
+            font-size: 16px;
+            margin: 15px 0;
+        }
+
+        span { color: white; }
+    }
+    .settings {
+        &_fixed {
+            position: fixed;
+            top: 75px;
+            width: 350px;
+        }
+        padding: 15px;
+        height: 340px;
+        @include NeuForMainBlocks;
+        .types {
+            margin: 30px 0 0 0;
+            @include NeuButtons;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            row-gap: 10px;
+            column-gap: 15px;
+            &__item {
+                font-size: 16px;
+                font-weight: 300;
+                padding: 10px 15px 10px 15px;
+                @include NeuForMainBlocks;
+                text-align: center;
+            }
+        }
+        &__form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            &__key {
+                margin-top: 10px;
+                width: 100%;
+                padding: 10px 10px 10px 15px;
+                border: 0;
+                border-radius: $borderRadiusForNeuBlocks;
+                background: #f9fafa;
+                box-shadow: inset 4px 4px 4px #e0e1e1,
+                            inset -4px -4px 4px #ffffff;        
+            }
+            #genre {
+                box-shadow: 4px 4px 4px #e0e1e1,
+                            -4px -4px 4px #ffffff; 
+            }
+            #genre:hover {
+                cursor: pointer;
+            }
+            #year {
+                margin-top: 20px;
+            }
+            &__key:focus {
+                outline: none;
+            }
+            button {
+                margin-top: 10px;
+                padding: 7px;
+                @include NeuForMainBlocks();
+                @include NeuButtons();
+            }
+        }
+        // Блок с меню
+        .menu {
+            &__title span { font-weight: 300; font-size: 20px;}
+            &__button {
+                // Меняем местами фото стрелок местами при клике на меню
+                i { 
+                    margin: 0 15px 0 0;
+                }
+                @include NeuForMainBlocks();
+                &_active { @include NeuForMainBlocks() { border-radius: 13px 13px 0 0; };}     
+
+                span { font-weight: 300; font-size: 16px; }
+                span { margin: 0 0 0 15px; }
+                img { margin: 0 15px 0 0; }
+                &:hover { cursor: pointer; }
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                height: 35px;
+                margin: 10px 0 0 0;
+                width: 320px;
+            }
+            &__list {
+                position: absolute;
+                height: 140px;
+                overflow-y: scroll;
+                margin-top: 120px;
+                width: 320px;
+                &_active { display: block; }
+                display: none;
+                @include NeuForMainBlocks();
+                &__line {
+                    height: 1px;
+                    background-color: #000;
+                }
+                &__item {
+                    cursor: pointer;
+                    padding: 6px 16px 6px 16px;
+                    text-align: left;
+                    font-weight: 400; 
+                    font-size: 14px;
+                }          
+            }
+        }
+        // Кнопка расширенных настроек
+        &__extended-button {
+            margin: 40px auto;
+            $extended-button-measures: 35px;
+            width: $extended-button-measures;
+            button {
+                @include NeuForMainBlocks();
+                width: $extended-button-measures;
+                height: $extended-button-measures;
+            }
+            &_inactive { display: none; }
+            @include NeuButtons();
+        }
+    }
+}
+
+.full__film__info {
+    margin-top: 75px;
+    display: flex;
+    .wrap1 {
+        margin: 15px 0 15px 15px;
+        width: 870px;
+        display: block;
+    }
+    .wrap2 {
+        display: flex;
+    }
+    &__image {
+        img {border-radius: 13px;}
+        margin-right: 15px;
+        width: 200px;
+        height: 300px;
+        @include NeuForMainBlocks();
+    }
+    &__about {
+        width: 640px;
+        height: 300px;
+        @include NeuForMainBlocks();
+    }
+    &__all {
+        padding: 15px;
+    }
+    &__title {
+        font-size: 32px;
+        margin-top: 10ox;
+    }
+    &__original-title {
+        font-size: 20px;
+        margin-top: 10px;
+    }
+    &__detail {
+        font-weight: 300;
+        display: flex;
+        &__left-side {
+            flex: 1;
+        }
+        &__right-side {
+            flex: 3;
+        }
+    }
+    &__descr {
+        padding: 15px;
+        margin-top: 15px;
+        min-height: 200px;
+        @include NeuForMainBlocks();
+    }
+    &__rating {
+        span {color: white;}
+        font-weight: 500;
+        font-size: 24px;
+        height: 40px;
+        @include NeuForMainBlocks();
+        background-color: #1db224;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &__sidebar {
+        padding: 15px;
+        width: 280px;
+    }
+    &__actors {
+        padding: 15px;
+        margin: 15px 0 15px 0;
+        height: (100% - 100% * 55 / 515);
+        @include NeuForMainBlocks();
+        div { margin-top: 7px; font-size: 16px;}
+    }
+}

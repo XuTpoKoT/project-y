@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проект</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/font-awesome/css/font-awesome.min.css') }}">
+    <script defer type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery/jquery-1.4.2.min.js"></script> 
+    <script defer src="{{ url_for('static', filename='scripts/script.js') }}"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="header__wrap">
+                <div class="header__logo"><a href="/">LOGOTYPE</a></div>
+                <div class="search">
+                    <form class='header__form' method="post">
+                        <label for="substr"></label>
+                        <input class="input__header" type="substr" name="substr" placeholder="Поиск" autocomplete="off"/>   
+                    </form>
+                    <ul class="input__menu">
+
+                        {% if film_menu %}
+                            {% for category in film_menu %}
+                                {% for film in category %}
+                                <a href="/{{ film['film_id'] }}">
+                                <div class="input__menu__item">
+                                    <div class="input__menu__item__image">
+                                        <img src="{{ film['img_path'] }}" alt="">
+                                    </div>
+                                    <div class="input__menu__item__info">
+                                        <div class="input__menu__item__title">
+                                            {{ film['title'] }}
+                                        </div>
+                                        <div class="input__menu__item__original-title">
+                                            {{ film['original_title'] }}
+                                        </div>
+                                        <div class="input__menu__item__country">
+                                            {{ film['country'] }} | {{ film['genres'] }}
+                                        </div>
+                                        <div class="input__menu__item__vote">
+                                            <span style="color: #1db224; font-weight: 400;">{{ film['imdb'] }}</span> | {{ film['imdb_count'] }}
+                                        </div>
+                                    </div>
+                                    <div class="input__menu__item__rating">
+                                        <span>{{ film['imdb'] }}</span>
+                                    </div>
+                                </div>
+                                </a>
+                                {% endfor %}
+                                <hr />
+                                <hr />
+                            {% endfor %}
+                        {% else %}
+                        <div class="input__menu__item__empty">
+                            Список фильмов пуст.
+                        </div>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <div class="header__profile__wrap">
+                <div class="header__profile">
+                    <div class="header__profile__nickname">Иван</div>
+                    <div class="header__profile__icon"><img src="{{ url_for('static', filename='styles/icons/accountHeader.png') }}" alt=""></div>
+                    <div class="header__profile__arrow"><i class="fa fa-caret-down fa-1x menu-icon" aria-hidden="true"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="recommendations">
+            <span>Может быть, Вам будет интересно</span>
+            <div class="recommendations__wrap">
+                <div class="slider">
+
+                    {% for film in film_recommendations %}
+                        {% if loop.index <= 6 %}       
+                        <div class="slider__item slider__item_active">          
+                        {% else %}
+                        <div class="slider__item">                         
+                        {% endif %}
+                            <a href="/{{ film['film_id'] }}">
+                            <div class="slider__item__image">
+                                <img src="{{ film['img_path'] }}" alt="">
+                            </div>
+                            <div class="slider__item__info">
+                                <div class="slider__item__info__title">
+                                    <strong>{{ film['title'] }}</strong>
+                                </div>
+                                <div class="slider__item__info__genre">
+                                    {{ film['genres'] }}
+                                </div>             
+                            </div>
+                            <div class="slider__item__rating">
+                                {{ film['imdb'] }}  
+                            </div>
+                        </a>
+                        </div>
+                    {% endfor %}   
+
+                </div>
+                <div class="slider__button-left">
+                    <button><i class="fa fa-angle-left fa-2x" aria-hidden="true"></i></button>
+                </div>
+                <div class="slider__button-right">
+                    <button><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="movies">
+            <div class="sidebar">
+                <div class="account">
+                    <div class="account__wrap">
+                        <div class="account__icon">
+                            <img src="{{ url_for('static', filename='./styles/icons/account.png') }}" alt="">
+                        </div>
+                        <div class="account__data">
+                            <div class="account__data__initials"><span>Иван Иванов</span></div>
+                            <div class="account__data__login"><span>@user123</span></div>
+                        </div>                        
+                    </div>
+                    <div class="account__info">
+                        <div class="watched"><span>Всего просмотрено: 400</span></div>
+                        <div class="liked"><span>Понравившиеся фильмы: 231</span></div>
+                        <div class="fulltime"><span>Общее время просмотра: 200ч</span></div>
+                    </div>
+                </div>
+                <div class="settings">
+                    <div class="types">
+                        <div style="margin-top: 10px; text-align: center;">Фильтрация</div>
+                        <form class='settings__form' method="post">
+                            <label for="genre"></label>
+                            <input id='genre' class="settings__form__key" autocomplete="off" type="genre" name='genre' placeholder="Введите жанр...">
+                            
+                            <ul class="menu__list">
+
+                                {% for genre in genres %}
+                                <li class="menu__list__item">{{ genre }}</li>
+                                {% endfor %}
+    
+                            </ul>
+
+                            <label for="year"></label>
+                            <input id='year' class="settings__form__key" autocomplete="off" type="year" name='year' placeholder="Введите год...">
+                            <button class=''>Отправить</button>
+                        </form>
+                    </div>          
+                </div>
+            </div>
+            <div class="list" id="root">
+
+                {% if film_list %}
+                {% for film in film_list %}
+                <a href="/{{ film['film_id'] }}">
+                <div class="list__item">
+                    <div class="list__item__image">
+                        <img src="{{ film['img_path'] }}" alt="">
+                    </div>
+                    <div class="list__item__info">
+                        <div class="list__item__title">
+                            {{ film['title'] }}
+                        </div>
+                        <div class="list__item__original-title">
+                            {{ film['original_title'] }}
+                        </div>
+                        <div class="list__item__country">
+                            {{ film['country'] }} | {{ film['genres'] }}
+                        </div>
+                        <div class="list__item__vote">
+                            <span style="color: #1db224; font-weight: 400;">{{ film['imdb'] }}</span> | {{ film['imdb_count'] }}
+                        </div>
+                    </div>
+                    <div class="list__item__rating">
+                        <span>{{ film['imdb'] }}</span>
+                    </div>
+                </div>
+                </a>
+                {% endfor %}
+                {% else %}
+                <div class="list__item__empty">
+                    <div>                    
+                        Список фильмов пуст.
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
