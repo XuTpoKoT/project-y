@@ -113,9 +113,7 @@ def main_page():
     # Работа с листом фильмов 
     film_list = search.multi_filter({}, 40, 0, cur)
     validate_client_data_in_list(film_list)
-
-    print(request.form.get('substr'))
-    print(type(request.form.get('substr')))
+    
     if request.method == 'POST' and not request.form.get('substr'):
         # Получение фильмов по жанру (отдел настроек)
         genre = request.form.get('genre')
