@@ -14,7 +14,7 @@
     <div class="header">
         <div class="container">
             <div class="header__wrap">
-                <div class="header__logo"><a href="http://127.0.0.1:5000/">LOGOTYPE</a></div>
+                <div class="header__logo"><a href="/">LOGOTYPE</a></div>
                 <div class="search">
                     <input type="text" placeholder="Поиск" class="input__header"/>
                     <ul class="input__menu">
@@ -40,7 +40,7 @@
                                 </div>
                             </div>
                             <div class="input__menu__item__rating">
-                                <span>{{ film['imdb'] }}</span>
+                                <span>{{ film['kinopoisk'] }}</span>
                             </div>
                         </div>
                         {% endfor %}
@@ -95,7 +95,7 @@
                                 </div>
                                 <div class="full__film__info__detail__right-side">
                                     <div> {{ film['year'] }} </div>
-                                    <div> {{ film['country'] }} </div>
+                                    <div> {{ film['countries'] }} </div>
                                     <div> {{ film['genres'] }} </div>
                                     <div> {{ film['director'] }} </div>
                                     <div> {{ film['budget'] }} </div>
@@ -121,7 +121,7 @@
             <div class="full__film__info__sidebar">
                 <div class="full__film__info__rating">
                     <div>
-                        <span>{{ film['imdb'] }} | {{ film['imdb_count'] }}</span>
+                        <span>{{ film['kinopoisk'] }} | {{ film['kinopoisk_count'] }}</span>
                     </div>
                 </div>
                 <div class="full__film__info__actors">

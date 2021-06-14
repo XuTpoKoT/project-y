@@ -39,14 +39,14 @@
                                             {{ film['original_title'] }}
                                         </div>
                                         <div class="input__menu__item__country">
-                                            {{ film['country'] }} | {{ film['genres'] }}
+                                            {{ film['countries'] }} | {{ film['genres'] }}
                                         </div>
                                         <div class="input__menu__item__vote">
                                             <span style="color: #1db224; font-weight: 400;">{{ film['imdb'] }}</span> | {{ film['imdb_count'] }}
                                         </div>
                                     </div>
                                     <div class="input__menu__item__rating">
-                                        <span>{{ film['imdb'] }}</span>
+                                        <span>{{ film['kinopoisk'] }}</span>
                                     </div>
                                 </div>
                                 </a>
@@ -95,7 +95,7 @@
                                 </div>             
                             </div>
                             <div class="slider__item__rating">
-                                {{ film['imdb'] }}  
+                                {{ film['kinopoisk'] }}  
                             </div>
                         </a>
                         </div>
@@ -179,7 +179,7 @@
                         </div>
                     </div>
                     <div class="list__item__rating">
-                        <span>{{ film['imdb'] }}</span>
+                        <span>{{ film['kinopoisk'] }}</span>
                     </div>
                 </div>
                 </a>

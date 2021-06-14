@@ -16,7 +16,7 @@ import films_db
 import convert
 import search
 
-def validate_client_data(film_list):
+def validate_client_data_in_list(film_list):
     upper_limit = 20
     words_limit = 3
     if film_list:
@@ -24,7 +24,33 @@ def validate_client_data(film_list):
             for key in film_list[i].keys():
                 if film_list[i][key] == None:
                     film_list[i][key] = "-"
+        for i in range(len(film_list)):
+            if len(film_list[i]['title']) > upper_limit:
+                film_list[i]['title'] = film_list[i]['title'][0:upper_limit] + '...'
+        for i in range(len(film_list)):
+            if len(film_list[i]['genres'].split()) > 3:
+                current = film_list[i]['genres'].split()
+                film_list[i]['genres'] = current[0]
+                for j in range(2):
+                    film_list[i]['genres'] += ', ' + current[j + 1]
+        for i in range(len(film_list)):
+            if film_list[i]['img_path']:
+                film_list[i]['img_path'] = url_for('static', filename=film_list[i]['img_path'])
+        for i in range(len(film_list)):
+            if len(film_list[i]['countries'].split()) > 3:
+                current = film_list[i]['countries'].split()
+                film_list[i]['countries'] = current[0]
+                for j in range(2):
+                    film_list[i]['countries'] += ', ' + current[j + 1]
 
+def validate_client_data_in_recomm(film_list):
+    upper_limit = 20
+    words_limit = 3
+    if film_list:
+        for i in range(len(film_list)):
+            for key in film_list[i].keys():
+                if film_list[i][key] == None:
+                    film_list[i][key] = "-"
         for i in range(len(film_list)):
             if len(film_list[i]['title']) > upper_limit:
                 film_list[i]['title'] = film_list[i]['title'][0:upper_limit] + '...'
@@ -34,15 +60,12 @@ def validate_client_data(film_list):
             if film_list[i]['img_path']:
                 film_list[i]['img_path'] = url_for('static', filename=film_list[i]['img_path'])
         for i in range(len(film_list)):
-            if film_list[i]['countries'] and len(film_list[i]['countries'].split()) > words_limit:
-                print('FILM_LIST НИЖЕ')
-                print(film_list[i])
-                print('FILM["COUNTRIES"] НИЖЕ')
-                print(film_list[i]['countries'])
-                countries = film_list[i]['countries'].split()
-                film_list[i]['countries'] = ''
-                for i in range(words_limit):
-                    film_list[i]['countries'] += countries[i]
+            if len(film_list[i]['countries'].split()) > 3:
+                current = film_list[i]['countries'].split()
+                film_list[i]['countries'] = current[0]
+                for j in range(2):
+                    film_list[i]['countries'] += ', ' + current[j + 1]
+
 
 # Инициализация Flask
 app = Flask(__name__)
@@ -86,11 +109,13 @@ def main_page():
 
     # Работа с рекомендациями
     film_recommendations = search.get_recommendations(20, cur)
-    validate_client_data(film_recommendations)
+    validate_client_data_in_recomm(film_recommendations)
     # Работа с листом фильмов
-    film_list = [search.get_data_film(i, cur) for i in range(1, 11)]
-    validate_client_data(film_list)
+    film_list = search.get_recommendations(40, cur)
+    validate_client_data_in_list(film_list)
 
+    print(request.form.get('substr'))
+    print(type(request.form.get('substr')))
     if request.method == 'POST' and not request.form.get('substr'):
         # Получение фильмов по жанру (отдел настроек)
         genre = request.form.get('genre')
@@ -102,7 +127,7 @@ def main_page():
             film_list = search.multi_filter(request.form, 10, 0, cur)
 
         if film_list:
-            validate_client_data(film_list)
+            validate_client_data_in_list(film_list)
             
         return render_template('index.html', 
             film_recommendations=film_recommendations, 
@@ -118,7 +143,7 @@ def main_page():
 
         film_menu = []
         film_menu.append([search.get_data_film(film[0], cur) for film in response['films']])
-        validate_client_data(film_menu[0])
+        validate_client_data_in_list(film_menu[0])
 
         return render_template('index.html', 
             film_recommendations=film_recommendations, 
