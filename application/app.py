@@ -1,5 +1,7 @@
 # coding=utf-8
 
+from os import curdir
+from re import split
 from flask import Flask, request, url_for, render_template, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import sys
@@ -16,15 +18,32 @@ import search
 
 def validate_client_data(film_list):
     upper_limit = 20
+    words_limit = 3
     if film_list:
+        for i in range(len(film_list)):
+            for key in film_list[i].keys():
+                if film_list[i][key] == None:
+                    film_list[i][key] = "-"
+
         for i in range(len(film_list)):
             if len(film_list[i]['title']) > upper_limit:
                 film_list[i]['title'] = film_list[i]['title'][0:upper_limit] + '...'
         for i in range(len(film_list)):
             film_list[i]['genres'] = film_list[i]['genres'].split(', ')[0]
         for i in range(len(film_list)):
-            if (film_list[i]['img_path']):
+            if film_list[i]['img_path']:
                 film_list[i]['img_path'] = url_for('static', filename=film_list[i]['img_path'])
+        for i in range(len(film_list)):
+            if film_list[i]['countries'] and len(film_list[i]['countries'].split()) > words_limit:
+                print('FILM_LIST НИЖЕ')
+                print(film_list[i])
+                print('FILM["COUNTRIES"] НИЖЕ')
+                print(film_list[i]['countries'])
+                countries = film_list[i]['countries'].split()
+                film_list[i]['countries'] = ''
+                for i in range(words_limit):
+                    film_list[i]['countries'] += countries[i]
+
 # Инициализация Flask
 app = Flask(__name__)
 
@@ -66,12 +85,10 @@ def main_page():
     ]
 
     # Работа с рекомендациями
-    film_recommendations = [
-        films_db.get_data_film(random.randint(1, 100), cur) for i in range(12, 22)
-    ]
+    film_recommendations = search.get_recommendations(20, cur)
     validate_client_data(film_recommendations)
     # Работа с листом фильмов
-    film_list = [films_db.get_data_film(i, cur) for i in range(1, 11)]
+    film_list = [search.get_data_film(i, cur) for i in range(1, 11)]
     validate_client_data(film_list)
 
     if request.method == 'POST' and not request.form.get('substr'):
@@ -80,10 +97,11 @@ def main_page():
         year = request.form.get('year')
         if not year:
             film_list = search.filter_by_genre(genre, 30, 0, cur)
-            validate_client_data(film_list)
         
         if year:
             film_list = search.multi_filter(request.form, 10, 0, cur)
+
+        if film_list:
             validate_client_data(film_list)
             
         return render_template('index.html', 
@@ -99,20 +117,8 @@ def main_page():
 
 
         film_menu = []
-        film_menu.append([films_db.get_data_film(film[0], cur) for film in response['films']])
+        film_menu.append([search.get_data_film(film[0], cur) for film in response['films']])
         validate_client_data(film_menu[0])
-
-        # film_menu.append([films_db.get_data_film(film[0], cur) for film in response['films']])
-        # validate_client_data(film_menu[1])
-
-        # film_menu.append([films_db.get_data_film(film[0], cur) for film in response['films']])
-        # validate_client_data(film_menu[2])
-
-        # film_menu.append([films_db.get_data_film(film[0], cur) for film in response['actors']])
-        # validate_client_data(film_menu[1])
-
-        # film_menu.append([films_db.get_data_film(film[0], cur) for film in response['directors']])
-        # validate_client_data(film_menu[2])
 
         return render_template('index.html', 
             film_recommendations=film_recommendations, 
@@ -126,12 +132,12 @@ def main_page():
         genres = genres,
         film_menu = [])
 
-@app.route('/<id>')
+@app.route('/films/<id>')
 def film_page(id):
     conn = sqlite3.connect("../films_db/database/films.sql")
     cur = conn.cursor()
 
-    film = films_db.get_data_film(id, cur)
+    film = search.get_data_film(id, cur)
 
     all_actors = film['actors'].split(', ')
     film['actors'] = all_actors
@@ -141,21 +147,10 @@ def film_page(id):
         film['genres'] = ', '.join(current)
 
     if len(film['title']) > 30:
-        film['title'] = film['title'][:33] + '...'
-
-    film['img_path'] = url_for('static', filename=film['img_path'])
+        film['title'] = film['title'][:30] + '...'
 
     return render_template('page.html', 
         film=film)
-
-# @app.route('/')
-# @app.route('/new-films')
-# @app.route('/new-films/<start>')
-# def get_new_films(start):
-#     conn = sqlite3.connect("../films_db/database/films.sql")
-#     cur = conn.cursor()
-#     res = [films_db.get_data_film(i, cur) for i in range(start, start + 20)]
-#     return jsonify(res), 200, {'content-type': 'application/json'}
 
 if __name__ == '__main__':
     app.run(debug=True)

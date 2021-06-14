@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Проект</title>
+    <link rel="shortcut icon" href="#">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/font-awesome/css/font-awesome.min.css') }}">
     <script defer type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery/jquery-1.4.2.min.js"></script> 
@@ -51,7 +52,6 @@
                                 </a>
                                 {% endfor %}
                                 <hr />
-                                <hr />
                             {% endfor %}
                         {% else %}
                         <div class="input__menu__item__empty">
@@ -82,7 +82,7 @@
                         {% else %}
                         <div class="slider__item">                         
                         {% endif %}
-                            <a href="/{{ film['film_id'] }}">
+                            <a href="/films/{{ film['film_id'] }}">
                             <div class="slider__item__image">
                                 <img src="{{ film['img_path'] }}" alt="">
                             </div>
@@ -154,7 +154,7 @@
 
                 {% if film_list %}
                 {% for film in film_list %}
-                <a href="/{{ film['film_id'] }}">
+                <a href="/films/{{ film['film_id'] }}">
                 <div class="list__item">
                     <div class="list__item__image">
                         <img src="{{ film['img_path'] }}" alt="">
@@ -167,7 +167,7 @@
                             {{ film['original_title'] }}
                         </div>
                         <div class="list__item__country">
-                            {{ film['country'] }} | {{ film['genres'] }}
+                            {{ film['countries'] }} | {{ film['genres'] }}
                         </div>
                         <div class="list__item__vote">
                             <span style="color: #1db224; font-weight: 400;">{{ film['imdb'] }}</span> | {{ film['imdb_count'] }}
