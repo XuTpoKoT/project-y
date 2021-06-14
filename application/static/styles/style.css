@@ -900,7 +900,6 @@ img {
 
 .full__film__info__image {
   margin-right: 15px;
-  width: 200px;
   height: 300px;
   border-radius: 13px;
   background: #f9fafa;
@@ -913,7 +912,7 @@ img {
 }
 
 .full__film__info__about {
-  width: 640px;
+  width: 100%;
   height: 300px;
   border-radius: 13px;
   background: #f9fafa;

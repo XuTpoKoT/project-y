@@ -565,12 +565,11 @@ $infoHeight: 70px;
     &__image {
         img {border-radius: 13px;}
         margin-right: 15px;
-        width: 200px;
         height: 300px;
         @include NeuForMainBlocks();
     }
     &__about {
-        width: 640px;
+        width: 100%;
         height: 300px;
         @include NeuForMainBlocks();
     }
